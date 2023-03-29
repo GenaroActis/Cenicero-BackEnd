@@ -57,7 +57,7 @@ const Category = () => {
             <Dropdown.Item className='text-center' onClick={() => clickCategoria('camisa')} >Camisas</Dropdown.Item>
         </DropdownButton>
             <div className="row" id="productos">
-            {productosFiltrados.forEach((product) => (
+            {productosFiltrados.map((product) => (
                 <Link key={product.id} className="nav-link" aria-current="page" to={`/Producto/${product.id}`}>
                     <div className="card text-dark mt-5">
                         <img src={product.img1} className="card-img-top mt-2 img-fluid" alt="" srcSet="" />

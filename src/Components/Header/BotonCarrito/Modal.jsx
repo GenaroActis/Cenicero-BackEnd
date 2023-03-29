@@ -7,7 +7,7 @@ import { CartContext } from '../../../context/CartContext';
 
 function Example(children) {
     const [show, setShow] = useState(false);
-    let {productosElegidos, limpiarItem, limpiarCarrito, totalPrecio, totalPrecioFunctions, agregarProducto, eliminarItem, itemEnCarrito} = useContext(CartContext)
+    let {addedProducts, cleanItem, cleanCart, totalPrice, totalPriceFunction, addProduct, deleteItem, itemExists} = useContext(CartContext)
 
 
     const handleClose = () => setShow(false);
@@ -26,26 +26,26 @@ function Example(children) {
                 <Modal.Title>Carrito</Modal.Title>
             </Modal.Header>
         <Modal.Body id='modalBody'>
-            {   productosElegidos.length === 0 ? (
+            {   addedProducts.length === 0 ? (
                 <div className='display-3 shadow-lg text-danger p-3 mb-5 bg-white rounded'>¡Tu carrito esta vacio!</div>
             ) : (
-            productosElegidos.map(product=>
+            addedProducts.map(product=>
                 <div key={product.id} className='card shadow-lg text-dark mt-5'>
                 <img src={product.img1} className='card-img-top mt-2 img-fluid' alt="" srcSet="" />
                 <div className='card-body'>
                     <h1 className='card-title'>{product.nombre}</h1>
                     <h2>Talle {product.talle}</h2>
                     <div className='d-flex flex-row justify-content-center align-items-center'>
-                        <button className='btn btn-outline-dark mr-3' onClick={()=>{agregarProducto(product)}}>+</button>
-                    <h3 className='mb-0'>Cantidad {product.elegidos}</h3>
-                        <button className='btn btn-outline-dark pr-3' onClick={()=>{
+                    <button className='btn btn-outline-dark pr-3' onClick={()=>{
                             let prodId = product.id
-                            eliminarItem(prodId)
+                            deleteItem(prodId)
                             }}>-</button>
+                    <h3 className='mb-0'>Cantidad {product.elegidos}</h3>
+                        <button className='btn btn-outline-dark mr-3' onClick={()=>{addProduct(product)}}>+</button>
                     </div>
                     <button className='btn btn-danger mt-2 mb-2' onClick={()=>{
                             let prodId = product.id
-                            limpiarItem(prodId)
+                            cleanItem(prodId)
                             }}>Eliminar Producto</button>
                     {/* {si productos elegidos es igual a uno muestra el precio unitario sino sub total y unitario */
                     product.elegidos === 1?(
@@ -59,7 +59,7 @@ function Example(children) {
             }
         </Modal.Body>
             <Modal.Footer>
-                {(productosElegidos.length === 0) ? 
+                {(addedProducts.length === 0) ? 
                     <Button variant="danger" onClick={handleClose}>
                         Cerrar
                     </Button>
@@ -68,7 +68,7 @@ function Example(children) {
                 <Button variant="danger" onClick={handleClose}>
                     Cerrar
                 </Button>
-                <Button variant="danger" onClick={limpiarCarrito}>
+                <Button variant="danger" onClick={cleanCart}>
                     vaciar carrito
                 </Button>
                 <Link className="nav-link" aria-current="page" to={'/FinalizarCompra'}>
@@ -76,7 +76,7 @@ function Example(children) {
                         Comprar
                     </Button>
                 </Link>
-                <h1 className='card-text shadow-lg p-3 bg-white rounded'>Total ${totalPrecio}</h1>
+                <h1 className='card-text shadow-lg p-3 bg-white rounded'>Total ${totalPrice}</h1>
                 </>
                 }
             </Modal.Footer>

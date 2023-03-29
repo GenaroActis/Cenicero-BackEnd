@@ -31,7 +31,7 @@ const CartProvider = ({children}) =>{
     });
     
     // funcion cambio agregar a agregado en boton
-    function agregado() {
+    function added() {
         const botonAgregar = document.querySelector("#botonAgregar")
         botonAgregar.textContent = "agregado";
         botonAgregar.style.backgroundColor = "#da8a0d";
@@ -44,39 +44,39 @@ const CartProvider = ({children}) =>{
     };
 
     // llamamos a el array del localStorage si existe
-    let initialProductosElegidos = [];
+    let inAddedProducts = [];
 
-    initialProductosElegidos = window.localStorage.getItem('productosElegidos')
-    ? (JSON.parse(window.localStorage.getItem('productosElegidos'))) : (initialProductosElegidos = []);
+    inAddedProducts = window.localStorage.getItem('addedProducts')
+    ? (JSON.parse(window.localStorage.getItem('addedProducts'))) : (inAddedProducts = []);
 
-    let [productosElegidos, setProductosElegidos] = useState(initialProductosElegidos)
+    let [addedProducts, setAddedProducts] = useState(inAddedProducts)
 
     // verificamos si existe en el carrito
-    const itemEnCarrito = (prodId) => {
-        return productosElegidos.find((product) => product.id === prodId) || null;
+    const itemExists = (prodId) => {
+        return addedProducts.find((product) => product.id === prodId) || null;
     };
 
     
 
-    const agregarProducto = (product) => {
-        const itemParaActualizar = itemEnCarrito(product.id);
+    const addProduct = (product) => {
+        const itemUpdate =  itemExists(product.id);
         
             // si el elemento si existe actualizamos cantidad elegida y precio subtotal
-            if (itemParaActualizar){
+            if (itemUpdate){
                 // si la cantidad elegida es igual al limite de stock que ....
-                if (itemParaActualizar.elegidos === itemParaActualizar.stock){
+                if (itemUpdate.elegidos === itemUpdate.stock){
                     notify2()
                 } else {
-                let precioParaActualizar = itemParaActualizar.precio;
-                itemParaActualizar.elegidos = itemParaActualizar.elegidos + 1;
-                itemParaActualizar.precioSubTotal = itemParaActualizar.elegidos * precioParaActualizar;
-                setProductosElegidos([...productosElegidos]);
+                let priceUpdate = itemUpdate.precio;
+                itemUpdate.elegidos = itemUpdate.elegidos + 1;
+                itemUpdate.precioSubTotal = itemUpdate.elegidos * priceUpdate;
+                setAddedProducts([...addedProducts]);
                 notify1()
                 }
             }
             // si el elemento no existe ya en el array productosElegidos que....
             else{
-                    productosElegidos.push({
+                    addedProducts.push({
                         id : product.id,
                         talle : product.talle,
                         nombre : product.nombre,
@@ -88,69 +88,68 @@ const CartProvider = ({children}) =>{
                         stock : product.stock
                     })
                     notify1()
-                    
-                    setProductosElegidos([...productosElegidos]);
+                    setAddedProducts([...addedProducts]);
             }
     };
 
-    const limpiarCarrito = () => {
-        productosElegidos = [];
+    const cleanCart = () => {
+        addedProducts = [];
         window.sessionStorage.clear();
-        setProductosElegidos([...productosElegidos]);
-        guardarLocalStorage();
+        setAddedProducts([...addedProducts]);
+        saveLocalStorage();
     };
 
-    const eliminarItem = (prodId) => {
-        let itemParaActualizar = itemEnCarrito(prodId);
+    const deleteItem = (prodId) => {
+        let  itemUpdate = itemExists(prodId);
         // si la cantidad es menos a dos limpiamos el producto
-        if (itemParaActualizar.elegidos < 2 ){
-            productosElegidos = productosElegidos.filter((product) => product.id !== prodId);
-            itemParaActualizar.elegidos = 0;
+        if ( itemUpdate.elegidos < 2 ){
+            addedProducts = addedProducts.filter((product) => product.id !== prodId);
+            itemUpdate.elegidos = 0;
         }
         // sino descontamos uno a cantidad elegida
         else {
-            itemParaActualizar.elegidos = itemParaActualizar.elegidos - 1;
-            let precioParaActualizar = itemParaActualizar.precio;
-            itemParaActualizar.precioSubTotal = itemParaActualizar.elegidos * precioParaActualizar;
+            itemUpdate.elegidos =  itemUpdate.elegidos - 1;
+            let priceUpdate = itemUpdate.precio;
+            itemUpdate.precioSubTotal = itemUpdate.elegidos * priceUpdate;
         };
-        setProductosElegidos([...productosElegidos]);
-        guardarLocalStorage();
+        setAddedProducts([...addedProducts]);
+        saveLocalStorage();
     };
 
     // elimina un item con sus cantidades desde el carrito
-    const limpiarItem = (prodId) => {
-        productosElegidos = productosElegidos.filter((product) => product.id !== prodId);
-        setProductosElegidos([...productosElegidos]);
-        guardarLocalStorage();
+    const cleanItem = (prodId) => {
+        addedProducts = addedProducts.filter((product) => product.id !== prodId);
+        setAddedProducts([...addedProducts]);
+        saveLocalStorage();
     }
 
     // funcion calcular el total del precio
-    let [totalPrecio, setTotalPrecio] = useState(0);
+    let [totalPrice, setTotalPrice] = useState(0);
 
-    const totalPrecioFunctions = () => {
-        if(productosElegidos.length > 0) {
-            totalPrecio = productosElegidos.reduce((acumulador, product) => acumulador + product.precioSubTotal, 0);
-            setTotalPrecio(totalPrecio);
+    const totalPriceFunction = () => {
+        if(addedProducts.length > 0) {
+            totalPrice = addedProducts.reduce((accumulator, product) => accumulator + product.precioSubTotal, 0);
+            setTotalPrice(totalPrice);
         }
     }
-    const guardarLocalStorage = () => {
+    const saveLocalStorage = () => {
         // convertimos los objetos en json
-        const JsonProductos = JSON.stringify(productosElegidos);
+        const JsonProducts = JSON.stringify(addedProducts);
         // almacenamos en localStorage
         if (window.localStorage) {
-            window.localStorage.setItem("productosElegidos", JsonProductos);
+            window.localStorage.setItem("addedProducts", JsonProducts);
         }
     };
 
     // usamos el useEffect para actualizar el localStorage y el totalPrecio
     useEffect(() => {
-        guardarLocalStorage();
-        totalPrecioFunctions();
-    }, [productosElegidos]);
+        saveLocalStorage();
+        totalPriceFunction();
+    }, [addedProducts]);
     
 
     return(
-        <CartContext.Provider value={{limpiarItem, agregado, totalPrecioFunctions, totalPrecio, productosElegidos, initialProductosElegidos, guardarLocalStorage, limpiarCarrito, itemEnCarrito,  eliminarItem, agregarProducto, localStorage}}>
+        <CartContext.Provider value={{cleanItem, added, totalPrice, totalPriceFunction, addedProducts, inAddedProducts, saveLocalStorage, cleanCart, itemExists,  deleteItem, addProduct, localStorage}}>
         {children}
         </CartContext.Provider>
     )

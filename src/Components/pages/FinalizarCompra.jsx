@@ -8,7 +8,7 @@ import { addDoc, collection, getFirestore } from 'firebase/firestore';
     
 
 const FinalizarCompra = () => {
-    const {productosElegidos, totalPrecio, limpiarCarrito} = useContext(CartContext)
+    const {addedProducts, totalPrice, cleanCart} = useContext(CartContext)
     
     const db = getFirestore();
 
@@ -77,8 +77,8 @@ const FinalizarCompra = () => {
                     phone: user_phone,
                     email: user_email
                 },
-                items: productosElegidos,
-                total: totalPrecio
+                items: addedProducts,
+                total: totalPrice
             }
             addDoc(ordersCollection, order)
             .then (() =>{
@@ -88,7 +88,7 @@ const FinalizarCompra = () => {
                 notify3()
                 setTimeout(()=>{
                     window.location.href = "/cenicero-backend";
-                    limpiarCarrito();
+                    cleanCart();
                 },2500)
             }, (error) => {
                 console.log(error.text);
@@ -137,7 +137,7 @@ const FinalizarCompra = () => {
                             <th scope="col">Sub Total</th>
                         </tr>
                     </thead>
-                    {productosElegidos.map(product =>                  
+                    {addedProducts.map(product =>                  
                     <tbody key={product.id}>
                         <tr>
                             <td>{product.nombre}</td>
@@ -150,7 +150,7 @@ const FinalizarCompra = () => {
                     <tbody>
                         <tr>
                             <th colSpan="4" scope="col" className="text-right">
-                                <h2>total precio ${totalPrecio}</h2>
+                                <h2>total precio ${totalPrice}</h2>
                             </th>
                         </tr>
                     </tbody>

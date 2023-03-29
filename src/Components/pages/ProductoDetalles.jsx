@@ -11,9 +11,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 
 const  Producto = () => {
-    const {agregarProducto, agregado} = useContext(CartContext);
+    const {addProduct, added} = useContext(CartContext);
     const [loading, setLoading] = useState(true);
-    // toastify
     
     const [product, setProduct] = useState({})
     const { id } = useParams();
@@ -29,7 +28,6 @@ const  Producto = () => {
         })
         .finally(() => setLoading(false));
     }, []);
-
     // si esta cargando mostramos un spinner
     if (loading === true){
         return (
@@ -40,8 +38,6 @@ const  Producto = () => {
         </div>
         )
     }
-
-    // const productoFiltrado = cardsProducts.filter(product => String(product.id) === id )
     return (
         <div key={id} id='detalleProducto'>
             <>
@@ -86,9 +82,9 @@ const  Producto = () => {
                                 <div className="d-grid gap-2 col-6 mx-auto">
                                 <button id='botonAgregar' onClick={()=>{
                                     // funcion agregado en boton
-                                    agregado()
+                                    added()
                                     // llamamos la funcion de agregar producto y guardar en el LocalStorage
-                                        agregarProducto(product);
+                                        addProduct(product);
                                 }} type="button" className='btn btn-lg btn-outline-primary'>agregar</button>
                                 </div>
                                 <ToastContainer/>

@@ -3,28 +3,28 @@ import { CartContext } from '../../../context/CartContext';
 
 
 function ContadorCarrito() {
-    let { productosElegidos, initialProductosElegidos } = useContext(CartContext);
-    const [cargando, setCargando] = useState(true);
+    let { addedProducts, inAddedProducts } = useContext(CartContext);
+    const [load, setLoad] = useState(true);
 
     // recuperamos la cantidad elegida
-    let initialCantidad = 0;
-    if (productosElegidos.length > 0 ) {
-        initialCantidad = initialProductosElegidos.reduce((acumulador, product) => acumulador + product.elegidos, 0)
+    let inQuantities = 0;
+    if (addedProducts.length > 0 ) {
+        inQuantities = inAddedProducts.reduce((acumulador, product) => acumulador + product.elegidos, 0)
     } 
 
-    const [totalCantidadNum, setTotalCantidadNum] = useState(initialCantidad);
+    const [totalQuantities, setQuantities] = useState(inQuantities);
 
     // actualizamos con useEffect
     useEffect(() => {
-        if (cargando) {
-        setCargando(false);
+        if (load) {
+        setLoad(false);
         }
-    setTotalCantidadNum(productosElegidos.reduce((acumulador, product) => acumulador + product.elegidos, 0));
-    }, [productosElegidos]);
+    setQuantities(addedProducts.reduce((acumulador, product) => acumulador + product.elegidos, 0));
+    }, [addedProducts]);
 
     return (
         <div>
-            <h1 id='numCarro'>{totalCantidadNum}</h1>
+            <h1 id='numCarro'>{totalQuantities}</h1>
         </div>
     );
 }
