@@ -1,0 +1,9 @@
+.userCard {
+  background-image: url(https://res.cloudinary.com/dsdicaf5h/image/upload/v1679338143/cenicero/fondo-min_mvyopj.png);
+  background-size: cover;
+  border: #da8a0d 10px solid !important;
+}
+
+.registerText {
+  text-transform: lowercase;
+}/*# sourceMappingURL=user.css.map */
