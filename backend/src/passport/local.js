@@ -4,6 +4,7 @@ import CartsDaoMongoDB from "../daos/mongodb/cartsDao.js";
 const cartDao = new CartsDaoMongoDB();
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { generateToken } from '../jwt/auth.js'
 
 const strategyConf = {
     usernameField: 'email',
@@ -24,7 +25,8 @@ const signup = async (req, email, password, done)=>{
             if(!newUser){
                 return done(null, false);
             } else {
-                return done(null, newUser)
+                const token = generateToken(newUser)
+                return done(null, token)
             };
         };
     } catch (error) {
@@ -37,13 +39,13 @@ const login = async (req, email, password, done)=>{
         const user = {email, password};
         const userLogged = await userDao.loginUser(user)
         if(userLogged){
-            return done(null, userLogged)
+            const acessToken = generateToken(userLogged) 
+            return done(null, acessToken)
         }else{
             throw new Error ('Wrong email or password')
         };
     } catch (error) {
         console.log(error)
-        return done(error)
     }
 };
 
@@ -57,7 +59,7 @@ passport.serializeUser((user, done)=>{
     done(null, user._id);
 });
 
-passport.deserializeUser(async(id, done)=>{
+passport.deserializeUser(async (id, done) => {
     const user = await userDao.getUserById(id);
     return done(null, user)
 });

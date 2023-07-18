@@ -6,10 +6,10 @@ import {
     updateProductController,
     getProductBySomethingController
 } from '../../controllers/productController.js';
-
+import { checkAuth } from '../../jwt/auth.js';
 const router = Router();
 
-router.get('/:id', getProductByIdController);
+router.get('/:id', checkAuth, getProductByIdController);
 router.post('/', createProductController);
 router.put('/:id', updateProductController);
 router.delete('/:id', deleteProductController);

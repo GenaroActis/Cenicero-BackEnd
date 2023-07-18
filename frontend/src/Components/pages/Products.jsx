@@ -2,39 +2,32 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContainer} from 'react-toastify';
 import { ProductContext } from '../../context/ProductContext'
 
-const Category = () => {
+const Products = () => {
     const { getProducts } = useContext(ProductContext)
     const [cardsProducts, setCardsProducts] = useState([]);
     const [pagData, setPagData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
     const [categoria, setCategoria] = useState('todos');
-    
+    const { page, limit, key, value, sortField, sortOrder } = useParams()
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-            const data = await getProducts();
+            const data = await getProducts(page, limit, key, value, sortField, sortOrder);
             setCardsProducts(data.results);
             setPagData(data.info);
-            console.log(data.info)
             setLoading(false);
             } catch (error) {
             console.error('Error:', error);
-            }
+            };
         };
         fetchData();
-    }, [getProducts]);
-
-    const clickCategoria = (nuevaCategoria) => {
-        setCategoria(nuevaCategoria);
-        navigate (`/Category/${nuevaCategoria}`)
-    };
+    }, [getProducts, page, limit, key, value, sortField, sortOrder]);
 
     if (loading === true){
         return (
@@ -48,17 +41,15 @@ const Category = () => {
             <>
         <div className='d-flex flex-column justify-content-center align-items-center mt-5'>
             <DropdownButton id="dropdown-button-drop-down-centered" drop="down-centered" variant="warning" title="Categorias">
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('todos')} >Todos</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('chomba')} >Chombas</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('remera')} >Remeras</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('gorra')} >Gorras</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('campera')} >Camperas</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('bermuda')} >Bermudas</Dropdown.Item>
-                <Dropdown.Item className='text-center' onClick={() => clickCategoria('camisa')} >Camisas</Dropdown.Item>
+                <Dropdown.Item href='/products' className='text-center'>Todos</Dropdown.Item>
+                <Dropdown.Item href='/products/limit=10/key=category/value=chombas' className='text-center'>Chombas</Dropdown.Item>
+                <Dropdown.Item href='/products/limit=10/key=category/value=remeras' className='text-center'>Remeras</Dropdown.Item>
+                <Dropdown.Item href='/products/limit=10/key=category/value=pantalones' className='text-center'>Pantalones</Dropdown.Item>
+                <Dropdown.Item href='/products/limit=10/key=category/value=bermudas' className='text-center'>Bermudas</Dropdown.Item>
             </DropdownButton>
                 <div className="row" id="productos">
                 {cardsProducts.map((product) => (
-                    <Link key={product._id} className="nav-link" aria-current="page" to={`/Producto/${product.id}`}>
+                    <Link key={product._id} className="nav-link" aria-current="page" to={`/producto/${product._id}`}>
                         <div className="card text-dark mt-5">
                             {/* <img src={product.img1} className="card-img-top mt-2 img-fluid" alt="" srcSet="" />
                             <img src={product.img2} className="card-img img-fluid" id="img2" alt="" srcSet="" /> */}
@@ -73,21 +64,33 @@ const Category = () => {
             <ToastContainer/>
             </div>
         </div>
-        {/* <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-5">
             <nav aria-label="Page navigation example">
                 <ul className="pagination">
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>Previous</Link></li>
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>1</Link></li>
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>2</Link></li>
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>3</Link></li>
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>4</Link></li>
-                    <li className="page-item"><Link className="page-link" to={`/Producto/${}`}>Next</Link></li>
+                {pagData.hasPrevPage && (
+                    <li className="page-item">
+                        <Link className="page-link" to={pagData.prevPageLink}>
+                            Previous
+                        </Link>
+                    </li>
+                )}
+                    <li id='1' className={`page-item ${pagData.actualPage === 1 ? 'active' : ''}`}><Link className="page-link" to={`/products`}>1</Link></li>
+                    <li id='2' className={`page-item ${pagData.actualPage === 2 ? 'active' : ''}`}><Link className="page-link" to={`/products/page=2`}>2</Link></li>
+                    <li id='3' className={`page-item ${pagData.actualPage === 3 ? 'active' : ''}`}><Link className="page-link" to={`/products/page=3`}>3</Link></li>
+                    <li id='4' className={`page-item ${pagData.actualPage === 4 ? 'active' : ''}`}><Link className="page-link" to={`/products/page=4`}>4</Link></li>
+                {pagData.hasNextPage && (
+                    <li className="page-item">
+                        <Link className="page-link" to={pagData.nextPageLink}>
+                            Next
+                        </Link>
+                    </li>
+                )}
                 </ul>
             </nav>
-        </div> */}
+        </div>
         </>
         )
     }
 }
 
-export default Category
+export default Products

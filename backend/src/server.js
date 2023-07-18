@@ -13,7 +13,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import passport from 'passport';
 import { MongoDBUrl } from './config.js';
 import './passport/github.js';
-import './passport/local.js';
+import './passport/jwt.js';
 import cors from 'cors';
 
 const app = express();
@@ -43,6 +43,9 @@ app.use(session({
     secret: 'sessionKey',
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        maxAge: 10000
+    },
         store : new MongoStore({
             mongoUrl: MongoDBUrl,
             ttl: 100,
@@ -50,7 +53,7 @@ app.use(session({
 })
 );
 
-app.use(cors());
+app.use(cors({credentials:true}));
 app.use(errorHandler)
 app.use(passport.initialize());
 app.use(passport.session());

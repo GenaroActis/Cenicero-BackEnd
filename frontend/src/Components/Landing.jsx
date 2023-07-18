@@ -41,7 +41,7 @@ const Landing = () => {
                             <Route exact path="/nosotros" element={<Nosotros/>}/>
                             <Route exact path="/producto/:id" element={<ProductoDetalles/>}/>
                             <Route exact path="/finalizarCompra" element={<FinalizarCompra/>}/>
-                            <Route exact path="/products" element={<Products/>}/>
+                            <Route exact path="/products/:page?/:limit?/:key?/:value?/:sortField?/:sortOrder?" element={<Products/>}/>
                             <Route exact path="/register" element={<Register/>}/>
                             <Route exact path="/" element={<Login/>}/>
                         </Routes>

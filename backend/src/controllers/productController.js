@@ -3,8 +3,9 @@ const prodDao = new ProductsDaoMongoDB();
 
 export const getProductByIdController = async (req, res, next) =>{
     try {
-        const {idSearched} = req.params;
-        const productSearched = await prodDao.getProductById(idSearched);
+        const {id} = req.params;
+        const productSearched = await prodDao.getProductById(id);
+        console.log(id)
         if(!productSearched){
             throw new Error('the searched id does not correspond to an existing product')
         } else{

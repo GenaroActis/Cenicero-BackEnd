@@ -62,8 +62,10 @@ const UserProvider = ({children}) =>{
                 body: JSON.stringify(userData),
             });
             if (response.ok) {
+                const res = await response.json()
+                const token = res.access_token
+                localStorage.setItem('token', token);
                 window.location.href = 'http://localhost:3000/products'
-                await response.json();
             } else {
                 notifyLoginError()
                 throw new Error('Error en la solicitud');
@@ -128,7 +130,7 @@ const UserProvider = ({children}) =>{
     };
 
     return(
-        <UserContext.Provider value={{register, login, registerGithub, githubProfile, logout}}>
+        <UserContext.Provider value={{ register, login, registerGithub, githubProfile, logout}}>
         {children}
         </UserContext.Provider>
     )

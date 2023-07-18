@@ -4,19 +4,31 @@ import Carousel from 'react-bootstrap/Carousel';
 import Card from 'react-bootstrap/Card';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {CartContext} from '../../context/CartContext';
+import { ProductContext } from '../../context/ProductContext';
+import { CartContext } from '../../context/CartContext';
 import Spinner from 'react-bootstrap/Spinner';
 
 
 
 const  Producto = () => {
-    const {addProduct, added} = useContext(CartContext);
+    const { getProductById } = useContext(ProductContext);
+    const { addProductToCart } = useContext(CartContext);
     const [loading, setLoading] = useState(true);
-    
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState([]);
     const { id } = useParams();
-    
-    // si esta cargando mostramos un spinner
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+            const data = await getProductById(id);
+            setProduct(data);
+            setLoading(false);
+            } catch (error) {
+            console.error('Error:', error);
+            };
+        };
+        fetchData();
+    }, [getProductById]);
+
     if (loading === true){
         return (
         
@@ -30,7 +42,7 @@ const  Producto = () => {
         <div key={id} id='detalleProducto'>
             <>
                 <React.Fragment key={product.id}>
-                    <div id='carousel'>
+                    {/* <div id='carousel'>
                         <Carousel variant="dark rounded">
                             <Carousel.Item>
                                 <img
@@ -54,25 +66,21 @@ const  Producto = () => {
                                 />
                             </Carousel.Item>
                         </Carousel>
-                    </div>
-                    {/* generamos la card con los detalles del producto */}
+                    </div> */}
                     <div id='cardDetalles'>
                         <Card>
                             <Card.Body className='text-center'>
-                                <Card.Title id='nombre' className="display-1 shadow-lg p-3 mb-5 bg-white rounded">{product.nombre}</Card.Title>
+                                <Card.Title id='nombre' className="display-1 shadow-lg p-3 mb-5 bg-white rounded">{product.title}</Card.Title>
                                 <Card.Text id='medidas' className="display-3 shadow-lg p-3 mb-5 bg-white rounded">
-                                Talle {product.talle} <br />
-                                {product.medidas} 
+                                Talle {product.size} <br />
+                                {product.description} 
                                 </Card.Text>
                                 <Card.Text id='precio' className="display-1 shadow-lg p-3 mb-5 bg-white rounded">
-                                ${product.precio}
+                                ${product.price}
                                 </Card.Text>
                                 <div className="d-grid gap-2 col-6 mx-auto">
                                 <button id='botonAgregar' onClick={()=>{
-                                    // funcion agregado en boton
-                                    added()
-                                    // llamamos la funcion de agregar producto y guardar en el LocalStorage
-                                        addProduct(product);
+                                    addProductToCart(product._id)
                                 }} type="button" className='btn btn-lg btn-outline-primary'>agregar</button>
                                 </div>
                                 <ToastContainer/>

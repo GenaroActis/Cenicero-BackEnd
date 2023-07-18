@@ -44,17 +44,22 @@ const CartProvider = ({children}) =>{
     };
 
     const getCart = async () =>{
-        try {
-            const response = await fetch(`http://localhost:8080/carts`, {
+        try { 
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/cart`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
                 },
             });
             if (response.ok) {
-                await response.json();
+                const data = await response.json()
+                console.log(data)
+                const cart = data.products
+                return cart
             } else {
-                window.location.href = 'http://localhost:8080/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -64,16 +69,18 @@ const CartProvider = ({children}) =>{
 
     const addProductToCart = async (prodId) =>{
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/api/carts/${prodId}`, {
                 method: 'PUT',
                 headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
                 },
             });
             if (response.ok) {
                 await response.json();
             } else {
-                window.location.href = 'http://localhost:8080/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -83,16 +90,18 @@ const CartProvider = ({children}) =>{
 
     const deleteProductToCart = async (prodId) =>{
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/api/carts/${prodId}`, {
                 method: 'DELETE',
                 headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
                 },
             });
             if (response.ok) {
                 await response.json();
             } else {
-                window.location.href = 'http://localhost:8080/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -102,16 +111,18 @@ const CartProvider = ({children}) =>{
 
     const deleteAllProductsToCart = async () =>{
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/api/carts/all`, {
                 method: 'DELETE',
                 headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
                 },
             });
             if (response.ok) {
                 await response.json();
             } else {
-                window.location.href = 'http://localhost:8080/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -131,7 +142,7 @@ const CartProvider = ({children}) =>{
             if (response.ok) {
                 await response.json();
             } else {
-                window.location.href = 'http://localhost:8080/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -139,8 +150,20 @@ const CartProvider = ({children}) =>{
         };
     };
 
+    const totalPriceFunction = async () =>{
+        try {
+            const cart = await getCart()
+            const totalPrice = cart.reduce((accumulator, product) => {
+                return accumulator + product.quantity * product._id.price;
+            }, 0);
+            return totalPrice;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     return(
-        <CartContext.Provider value={{ getCart, addProductToCart, deleteProductToCart, deleteAllProductsToCart, updateQuantityToCart, added, notify1, notify2}}>
+        <CartContext.Provider value={{totalPriceFunction, getCart, addProductToCart, deleteProductToCart, deleteAllProductsToCart, updateQuantityToCart, added, notify1, notify2}}>
         {children}
         </CartContext.Provider>
     )

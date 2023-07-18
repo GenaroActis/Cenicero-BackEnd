@@ -15,7 +15,7 @@ const Header = () => {
             <div className="d-flex flex-wrap justify-content-center py-3 mb-4">
                 <div id="menu">
                     <ul className="nav nav-pills">
-                        <li className="nav-item"><Link className="nav-link" aria-current="page" to={'/Category/todos'}>Productos</Link></li>
+                        <li className="nav-item"><Link className="nav-link" aria-current="page" to={'/products'}>Productos</Link></li>
                         <li className="nav-item" id='navInicio'><Link className="nav-link" aria-current="page" to={'/cenicero-backend'}>Inicio</Link></li>
                         <li className="nav-item"><Link className="nav-link" aria-current="page" to={'/Nosotros'}>Nosotros</Link></li>
                     </ul>

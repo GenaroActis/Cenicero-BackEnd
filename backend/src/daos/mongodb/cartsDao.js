@@ -23,7 +23,7 @@ export default class CartsDaoMongoDB {
         try {
             const cartFind = await CartsModel.findById(cartId)
             if(!cartFind) throw new Error ("Cart not found")
-            const existingProduct = await cartFind.products.find(productIt => productIt._id === prodId);
+            const existingProduct = await cartFind.products.find(productIt => productIt._id.toString() === prodId);
             if(existingProduct){
                 const updatedQuantity = existingProduct.quantity + 1
                 await CartsModel.updateOne(
@@ -36,7 +36,7 @@ export default class CartsDaoMongoDB {
                     {$push: {products: {_id: prodId, quantity: 1}}},
                 );
             };
-            const cartUpdate = await CartsModel.findById(cartId).populate('products._id');
+            const cartUpdate = await CartsModel.findById(cartId);
             return cartUpdate
         } catch (error) {
             console.log(error);
@@ -46,7 +46,7 @@ export default class CartsDaoMongoDB {
     async deleteProductToCart (prodId, cartId){
         try {
             const cartFind = await CartsModel.findById(cartId);
-            const existingProduct = await cartFind.products.find(productIt => productIt._id === prodId);
+            const existingProduct = await cartFind.products.find(productIt => productIt._id.toString() === prodId);
             if(!existingProduct){
                 throw new Error('the product you are trying to remove does not exist')
             } else{
@@ -90,7 +90,7 @@ export default class CartsDaoMongoDB {
     async updateQuantityOfProduct (cartId, prodId, newQuantity) {
         try {
             const cartFind = await CartsModel.findById(cartId);
-            const existingProduct = await cartFind.products.find(productIt => productIt._id === prodId);
+            const existingProduct = await cartFind.products.find(productIt => productIt._id.toString()  === prodId);
             if(!existingProduct){
                 throw new Error('the product you are trying to update does not exist')
             } else{

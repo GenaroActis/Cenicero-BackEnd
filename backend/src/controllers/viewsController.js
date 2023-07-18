@@ -7,8 +7,8 @@ export const getAllProductsController = async (req, res, next) =>{
     try {
         const { page, limit, key, value, sortField, sortOrder } = req.query;
         const allProducts = await prodDao.getAllProducts(page, limit, key, value, sortField, sortOrder);
-        const nextLink = allProducts.hasNextPage ? `http://localhost:8080/products?page=${allProducts.nextPage}` : null
-        const prevLink = allProducts.hasPrevPage ? `http://localhost:8080/products?page=${allProducts.prevPage}` : null
+        const nextLink = allProducts.hasNextPage ? `http://localhost:3000/products/page=${allProducts.nextPage}` : null
+        const prevLink = allProducts.hasPrevPage ? `http://localhost:3000/products/page=${allProducts.prevPage}` : null
         const userData = req.user
         const productsFile = {
             results: allProducts.docs,
@@ -36,7 +36,7 @@ export const getCartController = async (req, res, next) =>{
             const userData= req.user
             const cartId = userData.cartId
             const cart = await cartDao.getCart(cartId);
-            res.render('carts', {cart});
+            res.json(cart);
         };
     } catch (error) {
         next(error)
