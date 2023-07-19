@@ -19,6 +19,7 @@ export const generateToken = (user) =>{
 
 export const checkAuth = async (req, res, next) => {
     const authHeader = req.get('Authorization');
+    console.log('ola',authHeader)
     if(!authHeader) return res.status(401).json({ msg: 'Unauthorized' });
     try {
         const token = authHeader.split(' ')[1];

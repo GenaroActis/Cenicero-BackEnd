@@ -77,6 +77,7 @@ const UserProvider = ({children}) =>{
 
     const registerGithub = async () =>{
         try {
+            window.location.href = 'http://localhost:8080/api/user/register-github'
             const response = await fetch(`http://localhost:8080/api/user/register-github`, {
                 method: 'GET',
                 headers: {
@@ -84,7 +85,10 @@ const UserProvider = ({children}) =>{
                 },
             });
             if (response.ok) {
-                await response.json();
+                const res = await response.json()
+                const token = res.access_token
+                console.log("token", token)
+                localStorage.setItem('token', token);
             } else {
                 throw new Error('Error en la solicitud');
             }

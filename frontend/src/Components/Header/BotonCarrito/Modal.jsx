@@ -61,11 +61,13 @@ function ModalCart(children) {
             <Button id="buttonC" variant="primary" onClick={handleShow}>
                 <img src="https://res.cloudinary.com/dsdicaf5h/image/upload/v1677255374/cenicero/carrito-de-compras_1_nkqp6z.png" className="imgBoton"/>
             </Button>
+            
             <Modal id="modal" className='text-center' show={show} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Carrito</Modal.Title>
                 </Modal.Header>
             <Modal.Body id='modalBody'>
+                
                 {   cartProducts.length === 0 ? (
                     <div className='display-3 shadow-lg text-danger p-3 mb-5 bg-white rounded'>¡Tu carrito esta vacio!</div>
                 ) : (

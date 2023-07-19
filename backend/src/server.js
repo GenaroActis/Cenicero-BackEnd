@@ -12,8 +12,8 @@ import viewsRouter from './routes/viewsRouter.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import passport from 'passport';
 import { MongoDBUrl } from './config.js';
-import './passport/github.js';
 import './passport/jwt.js';
+import './passport/github.js';
 import cors from 'cors';
 
 const app = express();
@@ -53,7 +53,10 @@ app.use(session({
 })
 );
 
-app.use(cors({credentials:true}));
+app.use(cors({
+    credentials:true,
+    origin: 'http://localhost:3000'
+}));
 app.use(errorHandler)
 app.use(passport.initialize());
 app.use(passport.session());

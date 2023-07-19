@@ -4,11 +4,13 @@ import UserDao from '../daos/mongodb/usersDao.js';
 const userDao = new UserDao();
 import CartsDaoMongoDB from "../daos/mongodb/cartsDao.js";
 const cartDao = new CartsDaoMongoDB();
+import { generateToken } from '../jwt/auth.js';
 
 const strategyOptions = {
     clientID : 'Iv1.9bc6eb5e06e707c9',
     clientSecret: '78c15426ddf12e38dfab579629c62d5ec69c0dc6',
-    callbackURL:'http://localhost:8080/api/user/github-profile'
+    callbackURL:'http://localhost:8080/api/user/github-profile',
+    origin: 'http://localhost:3000',
 };
 
 const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
@@ -16,7 +18,8 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
         const email = profile._json.email
         const user = await userDao.getUserByEmail(email);
         if(user) {
-            return done(null, user)
+            const token = generateToken(user)
+            return done(null, token)
         }else {
             const newCart = await cartDao.createCart()
             const cartId = newCart._id
@@ -28,7 +31,9 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
                 isGithub: true,
                 cartId: cartId
             });
-            return done(null, newUser)
+            const token = generateToken(newUser)
+            console.log('token', token)
+            return done(null, token)
         };
     } catch (error) {
         console.log(error)
@@ -38,7 +43,7 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
 passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 
 export const frontResponseGithub = {
-    failureRedirect: '/register/Error',
-    successRedirect: '/github-profile',
+    failureRedirect: 'http://localhost:8080/api/user/register-github',
+    successRedirect: 'http://localhost:8080/api/user/github-profile',
     passReqToCallback: true,
 };

@@ -20,7 +20,8 @@ const strategyOptionsCookies = {
 };
 
 const verifyToken = async (jwt_payload, done) => {
-    console.log('payload--->', jwt_payload);
+    console.log('verify')
+    console.log('payload--->', jwt_payload).userId;
     const user = await userDao.getUserById(jwt_payload.userId);
     if(!user) return done(null, false)
     return done(null, jwt_payload)
@@ -29,9 +30,10 @@ const verifyToken = async (jwt_payload, done) => {
 passport.use('jwt', new jwtStrategy(strategyOptions, verifyToken));
 passport.use('jwtCookies', new jwtStrategy(strategyOptionsCookies, verifyToken));
 
-passport.serializeUser((user, done)=>{
-    console.log('user', user);
-    done(null, user.userId)
+passport.serializeUser(async (user, done)=>{
+    const payload = await verifyToken(user)
+    console.log(payload)
+    done(null, user)
 });
 
 passport.deserializeUser(async(id, done)=>{
