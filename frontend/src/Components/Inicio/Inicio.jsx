@@ -29,9 +29,9 @@ const Inicio = () => {
             </div>
         </Link>
         <div id='Video'>
-                <div id="products">
+                {/* <div id="products">
                     <Carousel variant="dark rounded">
-                    {/* {
+                    {
                     cardsProducts.map((product)=>(
                         <CarouselItem key={product.id} className='text-center'>
                             <Link id="link" className="nav-link" aria-current="page" to={`/Producto/${product.id}`}>
@@ -46,9 +46,9 @@ const Inicio = () => {
                             </Link>
                         </CarouselItem>
                     ))
-                    } */}
+                    }
                     </Carousel>
-                </div>
+                </div> */}
                 <ToastContainer/>
             <video controls>
                 <source type='video/mp4' src='https://res.cloudinary.com/dsdicaf5h/video/upload/v1677263045/cenicero/Untitled_2_of5elw.mp4'/>

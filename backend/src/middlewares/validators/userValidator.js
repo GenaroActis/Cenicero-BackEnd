@@ -9,10 +9,10 @@ export const validateRegister = [
         .exists()
         .not()
         .isEmpty(),
-    check('email')
+    check('email', 'InvalidEmail')
         .exists()
         .isEmail(),
-    check('password')
+    check('password', 'VeryShort')
         .exists()
         .not()
         .isEmpty()
@@ -22,6 +22,7 @@ export const validateRegister = [
             validationResult(req).throw()
             return next()
         } catch (error) {
+            console.log(error)
             res.status(400).send(error)
         }
     }

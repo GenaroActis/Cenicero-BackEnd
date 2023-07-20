@@ -9,7 +9,8 @@ export const generateToken = (user) =>{
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        age: user.age
+        age: user.age,
+        cartId: user.cartId
     };
     const token = jwt.sign(payload, PrivateKeyJWT, {
         expiresIn: '15m'
@@ -19,7 +20,6 @@ export const generateToken = (user) =>{
 
 export const checkAuth = async (req, res, next) => {
     const authHeader = req.get('Authorization');
-    console.log('ola',authHeader)
     if(!authHeader) return res.status(401).json({ msg: 'Unauthorized' });
     try {
         const token = authHeader.split(' ')[1];

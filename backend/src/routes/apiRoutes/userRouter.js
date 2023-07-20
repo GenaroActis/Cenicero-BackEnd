@@ -11,6 +11,6 @@ router.post('/register', validateRegister, register);
 router.post('/login', login)
 router.get('/logout', logoutUserController)
 router.get('/register-github', passport.authenticate('github', { scope: [ 'user:email' ] }));
-router.get('/github-profile', passport.authenticate('github', frontResponseGithub));
+router.get('/github-profile', frontResponseGithub);
 
 export default router

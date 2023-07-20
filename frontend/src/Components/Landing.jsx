@@ -14,6 +14,7 @@ import ProductProvider from '../context/ProductContext'
 import Products from './pages/Products'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import GithubRes from './pages/GithubRes'
 
 import '../scss/modal.css'
 import '../scss/detalleProductos.css'
@@ -44,6 +45,7 @@ const Landing = () => {
                             <Route exact path="/products/:page?/:limit?/:key?/:value?/:sortField?/:sortOrder?" element={<Products/>}/>
                             <Route exact path="/register" element={<Register/>}/>
                             <Route exact path="/" element={<Login/>}/>
+                            <Route exact path="/github/:token" element={<GithubRes/>}/>
                         </Routes>
                     <Footer/>
                 </BrowserRouter>

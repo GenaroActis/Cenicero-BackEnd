@@ -8,7 +8,7 @@ export const register = async(req, res, next)=>{
     try {
         const { firstName, lastName, email, age, password } = req.body;
         const exist = await userDao.getUserByEmail(email);
-        if(exist) return res.status(400).json({ msg: 'User already exists' });
+        if(exist) return res.status(400).json({errors:[{ msg: 'EmailAlreadyRegistered' }]});
         const newCart = await cartDao.createCart()
         const user = {firstName, lastName, email, age, password, cartId:newCart}
         const newUser = await userDao.createUser(user);

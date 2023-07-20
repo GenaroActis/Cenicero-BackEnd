@@ -30,6 +30,18 @@ const UserProvider = ({children}) =>{
         theme: "colored",
     });
 
+    const notifyPasswordVeryShort= () => toast.error('la contraseña debe tener mas de 6 caracteres!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 0,
+        content : 0,
+        theme: "colored",
+    });
+
     const register = async (userData) =>{
         try {
             const response = await fetch(`http://localhost:8080/api/user/register`, {
@@ -43,8 +55,15 @@ const UserProvider = ({children}) =>{
                 window.location.href = 'http://localhost:3000/'
                 await response.json();
             } else {
-                notifyRegisterError()
-                throw new Error('Error en la solicitud');
+                const error = await response.json()
+                if(error.errors){
+                    console.log(error)
+                    if(error.errors)
+                    notifyPasswordVeryShort()
+                    notifyRegisterError()
+                } else{
+                    throw new Error('Error en la solicitud');
+                }
             }
         } catch (error) {
             console.log(error)
@@ -78,38 +97,6 @@ const UserProvider = ({children}) =>{
     const registerGithub = async () =>{
         try {
             window.location.href = 'http://localhost:8080/api/user/register-github'
-            const response = await fetch(`http://localhost:8080/api/user/register-github`, {
-                method: 'GET',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                const res = await response.json()
-                const token = res.access_token
-                console.log("token", token)
-                localStorage.setItem('token', token);
-            } else {
-                throw new Error('Error en la solicitud');
-            }
-        } catch (error) {
-            console.log(error)
-        };
-    };
-
-    const githubProfile = async () =>{
-        try {
-            const response = await fetch(`http://localhost:8080/api/user/github-profile`, {
-                method: 'GET',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                await response.json();
-            } else {
-                throw new Error('Error en la solicitud');
-            }
         } catch (error) {
             console.log(error)
         };
@@ -134,7 +121,7 @@ const UserProvider = ({children}) =>{
     };
 
     return(
-        <UserContext.Provider value={{ register, login, registerGithub, githubProfile, logout}}>
+        <UserContext.Provider value={{ register, login, registerGithub, logout}}>
         {children}
         </UserContext.Provider>
     )

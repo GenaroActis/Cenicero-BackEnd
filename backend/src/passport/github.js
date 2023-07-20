@@ -19,6 +19,8 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
         const user = await userDao.getUserByEmail(email);
         if(user) {
             const token = generateToken(user)
+            console.log('token', token)
+            console.log('acces', accessToken)
             return done(null, token)
         }else {
             const newCart = await cartDao.createCart()
@@ -42,8 +44,17 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
 
 passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 
-export const frontResponseGithub = {
-    failureRedirect: 'http://localhost:8080/api/user/register-github',
-    successRedirect: 'http://localhost:8080/api/user/github-profile',
-    passReqToCallback: true,
+// export const frontResponseGithub = {
+//     failureRedirect: 'http://localhost:8080/api/user/register-github',
+//     successRedirect: 'http://localhost:3000/products',
+//     passReqToCallback: true,
+// };
+export const frontResponseGithub = (req, res, next) => {
+    // Llama a passport.authenticate como un middleware
+    passport.authenticate('github', (err, user, info) => {
+      // Si la autenticación es exitosa, puedes personalizar la respuesta con un encabezado personalizado
+        res.header('Authorization', user)
+        // .json({msg: 'Login OK', user})
+        .redirect(`http://localhost:3000/github/${user}`)
+    })(req, res, next);
 };

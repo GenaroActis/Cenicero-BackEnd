@@ -8,6 +8,7 @@ const ProductProvider = ({children}) =>{
     const getProducts = async (page, limit, key, value, sortField, sortOrder) =>{
         try{
             const token = localStorage.getItem('token');
+            console.log(token)
             const url = `http://localhost:8080/products?${page ?? 'page=1'}&${limit ?? 'limit=5'}&${key}&${value}&${sortField ?? 'sortField=title'}&${sortOrder ?? 'sortOrder=asc'}`;
             const response = await fetch(url, {
                 method: 'GET',
@@ -20,7 +21,7 @@ const ProductProvider = ({children}) =>{
                 const data = await response.json();
                 return data
             } else {
-                // window.location.href = 'http://localhost:3000/'
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
