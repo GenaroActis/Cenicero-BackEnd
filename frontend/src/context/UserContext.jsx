@@ -57,10 +57,12 @@ const UserProvider = ({children}) =>{
             } else {
                 const error = await response.json()
                 if(error.errors){
-                    console.log(error)
-                    if(error.errors)
-                    notifyPasswordVeryShort()
-                    notifyRegisterError()
+                    if(error.errors[0].msg === 'VeryShort'){
+                        notifyPasswordVeryShort()
+                    }
+                    if(error.errors[0].msg === 'EmailAlreadyRegistered'){
+                        notifyRegisterError()
+                    }
                 } else{
                     throw new Error('Error en la solicitud');
                 }
