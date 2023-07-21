@@ -1,20 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import Spinner from 'react-bootstrap/Spinner';
 import Carousel from 'react-bootstrap/Carousel';
 import { CarouselItem } from 'react-bootstrap';
+import { ProductContext } from '../../context/ProductContext';
 
 const Inicio = () => {
 
-    // if (loading === true){
-    //     return (
-    //     <div className='container-fluid' id='spinner'>
-    //         <h1>Cargando...</h1>
-    //     <Spinner className='spinner' animation="border"/>
-    //     </div>
-    //     )
-    // }
+    const { getProducts } = useContext(ProductContext)
+    const [cardsProducts, setCardsProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+            const data = await getProducts();
+            setCardsProducts(data.results);
+            setLoading(false);
+            } catch (error) {
+            console.error('Error:', error);
+            };
+        };
+        fetchData();
+    }, [getProducts]);
+
+    if (loading === true){
+        return (
+        <div className='container-fluid' id='spinner'>
+            <h1>Cargando...</h1>
+        <Spinner className='spinner' animation="border"/>
+        </div>
+        )
+    }
 
     return (
         <>

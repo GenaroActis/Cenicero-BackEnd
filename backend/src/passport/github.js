@@ -50,11 +50,8 @@ passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 //     passReqToCallback: true,
 // };
 export const frontResponseGithub = (req, res, next) => {
-    // Llama a passport.authenticate como un middleware
     passport.authenticate('github', (err, user, info) => {
-      // Si la autenticación es exitosa, puedes personalizar la respuesta con un encabezado personalizado
         res.header('Authorization', user)
-        // .json({msg: 'Login OK', user})
         .redirect(`http://localhost:3000/github/${user}`)
     })(req, res, next);
 };

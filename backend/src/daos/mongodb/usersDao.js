@@ -49,7 +49,11 @@ export default class UsersDaoMongoDB {
             const email = userData.email
             const password = userData.password
             const userSearch = await UserModel.findOne({email}); 
+            console.log(userSearch.isGithub)
             if(userSearch){
+                if(userSearch.isGithub){
+                    return 'isGithub'
+                }
                 const passwordValidate = isValidPassword(password, userSearch)
                 if(!passwordValidate) return false
                 else return userSearch

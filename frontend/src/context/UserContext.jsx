@@ -42,6 +42,18 @@ const UserProvider = ({children}) =>{
         theme: "colored",
     });
 
+    const notifyIsGithub= () => toast.error('este email fue registrado desde github!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 0,
+        content : 0,
+        theme: "colored",
+    });
+
     const register = async (userData) =>{
         try {
             const response = await fetch(`http://localhost:8080/api/user/register`, {
@@ -84,9 +96,13 @@ const UserProvider = ({children}) =>{
             });
             if (response.ok) {
                 const res = await response.json()
-                const token = res.access_token
-                localStorage.setItem('token', token);
-                window.location.href = 'http://localhost:3000/products'
+                if(res.msg === 'isGithub'){
+                    notifyIsGithub()
+                } else{
+                    const token = res.accessToken
+                    localStorage.setItem('token', token);
+                    window.location.href = 'http://localhost:3000/products'
+                }
             } else {
                 notifyLoginError()
                 throw new Error('Error en la solicitud');

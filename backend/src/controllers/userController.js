@@ -28,11 +28,16 @@ export const login = async(req, res, next)=>{
         const user = await userDao.loginUser({email, password});
         if(!user){
         res.json({msg: 'invalid credentials'});
+        } else{
+            if(user === 'isGithub') {
+                res.json({msg: 'isGithub'})
+            } else{
+                const accessToken = generateToken(user)
+            res
+                .header('Authorization', accessToken)
+                .json({msg: 'Login OK', accessToken})
+            }
         }
-        const access_token = generateToken(user)
-        res
-            .header('Authorization', access_token)
-            .json({msg: 'Login OK', access_token})
     } catch (error) {
         next(error);
     }
