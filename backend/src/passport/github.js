@@ -19,8 +19,6 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
         const user = await userDao.getUserByEmail(email);
         if(user) {
             const token = generateToken(user)
-            console.log('token', token)
-            console.log('acces', accessToken)
             return done(null, token)
         }else {
             const newCart = await cartDao.createCart()
@@ -34,7 +32,6 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
                 cartId: cartId
             });
             const token = generateToken(newUser)
-            console.log('token', token)
             return done(null, token)
         };
     } catch (error) {

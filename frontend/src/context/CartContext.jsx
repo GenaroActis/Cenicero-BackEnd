@@ -55,7 +55,6 @@ const CartProvider = ({children}) =>{
             });
             if (response.ok) {
                 const data = await response.json()
-                console.log(data)
                 const cart = data.products
                 return cart
             } else {

@@ -67,31 +67,40 @@ function ModalCart(children) {
                     <Modal.Title>Carrito</Modal.Title>
                 </Modal.Header>
             <Modal.Body id='modalBody'>
-                
-                {   cartProducts.length === 0 ? (
-                    <div className='display-3 shadow-lg text-danger p-3 mb-5 bg-white rounded'>¡Tu carrito esta vacio!</div>
-                ) : (
-                cartProducts.map(product=>
-                    <div key={product._id._id} className='card shadow-lg text-dark mt-5'>
-                    {/* <img src={product.img1} className='card-img-top mt-2 img-fluid' alt="" srcSet="" /> */}
-                    <div className='card-body'>
-                        <h1 className='card-title'>{product._id.title}</h1>
-                        <h2>Talle {product._id.size}</h2>
-                        <div className='d-flex flex-row justify-content-center align-items-center'>
-                            <button className='btn btn-outline-dark mr-3' onClick={()=>{
-                                handleAddToCart(product._id._id)
-                            }}>+</button>
-                            <h3 className='mb-0 m-1'>Cantidad {product.quantity}</h3>
-                            <button className='btn btn-outline-dark pr-3' onClick={()=>{
-                                handleDeleteToCart(product._id._id)
-                            }}>-</button>
+                { loading === true ? (
+                        <div className='container-fluid' id='spinner'>
+                            <h1>Cargando...</h1>
+                        <Spinner className='spinner' animation="border"/>
                         </div>
-                        <button className='btn btn-danger mt-2 mb-2' onClick={()=>{
-                                }}>Eliminar Producto</button>
-                        <h1 className='card-text shadow-lg p-3 bg-white rounded'>${product._id.price} </h1>
-                    </div>
-                </div>
-                ))
+                        )
+                :(
+                    cartProducts.length === 0 ? (
+                        <div className='display-3 shadow-lg text-danger p-3 mb-5 bg-white rounded'>¡Tu carrito esta vacio!</div>
+                    ) : (
+                        cartProducts.map(product=>
+                            <div key={product._id._id} className='card shadow-lg text-dark mt-5'>
+                            {/* <img src={product.img1} className='card-img-top mt-2 img-fluid' alt="" srcSet="" /> */}
+                            <div className='card-body'>
+                                <h1 className='card-title'>{product._id.title}</h1>
+                                <h2>Talle {product._id.size}</h2>
+                                <div className='d-flex flex-row justify-content-center align-items-center'>
+                                    <button className='btn btn-outline-dark mr-3' onClick={()=>{
+                                        handleAddToCart(product._id._id)
+                                    }}>+</button>
+                                    <h3 className='mb-0 m-1'>Cantidad {product.quantity}</h3>
+                                    <button className='btn btn-outline-dark pr-3' onClick={()=>{
+                                        handleDeleteToCart(product._id._id)
+                                    }}>-</button>
+                                </div>
+                                <button className='btn btn-danger mt-2 mb-2' onClick={()=>{
+                                        handleDeleteToCart(product._id._id)
+                                        }}>Eliminar Producto</button>
+                                <h1 className='card-text shadow-lg p-3 bg-white rounded'>${product._id.price} </h1>
+                            </div>
+                        </div>
+                        )
+                    )
+                )    
                 }
             </Modal.Body>
                 <Modal.Footer>
