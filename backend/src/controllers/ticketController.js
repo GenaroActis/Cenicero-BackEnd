@@ -1,9 +1,11 @@
 import TicketDaoMongoDB from "../persistence/daos/mongodb/ticketDao.js";
 import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
+import ProductsDaoMongoDB from "../persistence/daos/mongodb/productsDao.js";
 import { generateCodeTicket } from "../utils.js"
 import buyerUserDto from "../persistence/dtos/buyerUserDto.js"
 const ticketDao = new TicketDaoMongoDB();
 const cartDao = new CartsDaoMongoDB();
+const prodDao = new ProductsDaoMongoDB();
 
 export const getTicketByCodeController = async (req, res, next) =>{
     try {
@@ -46,7 +48,7 @@ export const generateTicketController = async (req, res, next) =>{
         });
         const ticket = {
             remainingProducts: remainingProducts,
-            products: userCart,
+            products: userCart.products,
             code: ticketCode,
             totalPrice: totalPriceCart,
             purchaser: userDto
@@ -58,11 +60,16 @@ export const generateTicketController = async (req, res, next) =>{
 } 
 export const finalizePurchaseController = async (req, res, next)=>{
     try {
+        const cartId = req.user.cartId ;
         const confirmedTicket = req.body
         const remainingProducts = confirmedTicket.remainingProducts
-        console.log(remainingProducts)
-        const savePurchase = {}
-        // const savePurchase = await ticketDao.createTicket(confirmedTicket)
+        cartDao.updateCartProducts(cartId, remainingProducts)
+        const savePurchase = await ticketDao.createTicket(confirmedTicket)
+        confirmedTicket.products.forEach(async (prod) => {
+            const { quantity, _id } = prod;
+            const remainingStock = _id.stock - quantity
+            await prodDao.updateProductStock(_id, remainingStock);
+        })
         res.json(savePurchase)
     } catch (error) {
         next(error)

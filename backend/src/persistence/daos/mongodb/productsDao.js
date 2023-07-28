@@ -64,4 +64,13 @@ export default class ProductsDaoMongoDB {
             throw new Error(error);
         };
     };
+    async updateProductStock (id, remainingStock){
+        try {
+            const prodUpdate = await ProductsModel.updateOne({ _id: id }, {$set: { stock: remainingStock} })
+            return prodUpdate
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
 };

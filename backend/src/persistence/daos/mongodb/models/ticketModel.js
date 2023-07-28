@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const TicketSchema = new mongoose.Schema({
     products: [
-        { _id : { type: mongoose.Schema.Types.ObjectId, required:true, ref: 'products'}}
+        { _id : { type: mongoose.Schema.Types.ObjectId, required:true, ref: 'products'},
+        quantity: { type: Number, default: 1 } },
     ],
     code: {type: String, require:true, unique: true},
     purchaseDataTime: { type: Date, required: true },
@@ -10,7 +11,7 @@ const TicketSchema = new mongoose.Schema({
     purchaser: 
         {
             fullName: {type: String, required:true},
-            email: {type: String, required:true},
+            emailBuyer: {type: String, required:true},
             cellPhone: {type: String, required:true}
         }
 });

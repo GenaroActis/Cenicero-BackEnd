@@ -27,7 +27,6 @@ const FinalizePurchase = () => {
         e.preventDefault()
         ticket.purchaser.cellPhone = document.querySelector('#phone').value
         const fetchTicket = await finalizeTicket(ticket)
-        console.log(ticket)
     }
 
     // // toastify
@@ -83,7 +82,7 @@ const FinalizePurchase = () => {
                     </div>
                     <form id="form" className='m-5' onSubmit={handlePostTicket}>
                         <div className="form-group mt-5">
-                            <div className="form-group">
+                            <div className="form-group h4">
                                 <label htmlFor="phone" className="col-12 col-md-2 col-form-label h2">Phone Number :</label>
                                 <div className="col-12 col-md-10">
                                     <input type="tel" className="form-control" id="phone" placeholder="Phone Number" required/>
@@ -92,28 +91,29 @@ const FinalizePurchase = () => {
                         </div>
                         {ticket.remainingProducts.length > 0 && (
                             <div className="mt-5">
-                            <h4>Productos con stock insuficiente:</h4>
+                            <h4>Products with insufficient stock:</h4>
                             <ul>
                                 {ticket.remainingProducts.map((product) => (
-                                <li key={product._id._id}>
-                                    <strong>Producto: </strong> {product._id.title}, <strong>Cantidad solicitada: </strong> {product.quantity + product._id.stock}, <strong>Stock disponible: </strong> {product._id.stock}, <strong>Cantidad Restante: </strong> {product.quantity}
+                                <li className='h4' key={product._id._id}>
+                                    <strong>Product: </strong> {product._id.title}, <strong>Requested amount: </strong> {product.quantity + product._id.stock}, <strong> Available stock: </strong> {product._id.stock}, <strong>Remaining amount: </strong> {product.quantity}
                                 </li>
                                 ))}
                             </ul>
+                            <h4>The products that you could not buy will be saved in your cart.</h4>
                             </div>
                         )}
-                        <div  className="form-group table-responsive">
+                        <div className="form-group table-responsive">
                             <table  className="mt-5 mb-5 table">
-                                <thead>
+                                <thead className='h3'>
                                     <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Precio</th>
-                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
                                         <th scope="col">Sub Total</th>
                                     </tr>
                                 </thead>
-                                {ticket.products.products.map(product =>                  
-                                <tbody key={product._id.code}>
+                                {ticket.products.map(product =>                  
+                                <tbody className='h4' key={product._id.code}>
                                     <tr>
                                         <td>{product._id.title}</td>
                                         <td>${product._id.price}</td>
@@ -125,14 +125,14 @@ const FinalizePurchase = () => {
                                 <tbody>
                                     <tr>
                                         <th colSpan="4" scope="col" className="text-right">
-                                            <h2>total precio ${ticket.totalPrice}</h2>
+                                            <h2>Total Price ${ticket.totalPrice}</h2>
                                         </th>
                                     </tr>
                                 </tbody>
                             </table>
                             <div className="d-flex justify-content-center">
                                 <div className="p-2">
-                                    <Link className="btn btn-warning btn-block" aria-current="page" to={'/Productos'}>Seguir Comprando</Link>
+                                    <Link className="btn btn-primary btn-block" aria-current="page" to={'/Productos'}>Seguir Comprando</Link>
                                 </div>
                                 <div className="p-2">
                                     <button className="btn btn-success btn-block" id="button"> Finalizar Compra</button>
