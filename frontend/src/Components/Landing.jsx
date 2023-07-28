@@ -22,6 +22,7 @@ import AdminMenu from './adminPages/AdminMenu'
 import ProductManager from './adminPages/ProductManager'
 import SalesHistory from './adminPages/SalesHistory'
 import ProductModifier from './adminPages/ProductModifier'
+import ConfirmedPurchase from './pages/ConfirmedPurchase'
 import '../scss/modal.css'
 import '../scss/detalleProductos.css'
 import  '../scss/reset.css'
@@ -59,6 +60,7 @@ const Landing = () => {
                             <Route exact path="/admin/productManager/:page?/:limit?/:key?/:value?/:sortField?/:sortOrder?" element={<ProductManager/>}/>
                             <Route exact path="/admin/salesHistory" element={<SalesHistory/>}/>
                             <Route exact path="/productModifier/:id" element={<ProductModifier/>}/>
+                            <Route exact path="/confirmedPurchase/:code" element={<ConfirmedPurchase/>}/>
                         </Routes>
                     <Footer/>
                 </BrowserRouter>

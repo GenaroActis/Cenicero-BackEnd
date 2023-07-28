@@ -43,7 +43,7 @@ export const generateTicketController = async (req, res, next) =>{
                     _id: _id
                 })
             }
-            const totalPriceProd = quantity * _id.price
+            const totalPriceProd = prod.quantity * _id.price
             totalPriceCart += totalPriceProd
         });
         const ticket = {

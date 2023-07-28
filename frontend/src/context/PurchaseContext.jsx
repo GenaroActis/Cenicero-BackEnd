@@ -1,9 +1,33 @@
 import React, { createContext } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 export const PurchaseContext = createContext();
 
 const PurchaseProvider = ({children}) =>{
+    const notifyFetchError = () => toast.error(`Error sending the purchase! I try again later`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+    }
+    );
+
+    const notifySuccessful = () => toast.success('Successful purchase!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+    }
+    )
 
     const generateTicket = async (id) =>{
         try{
@@ -41,8 +65,34 @@ const PurchaseProvider = ({children}) =>{
             });
             if (response.ok) {
                 const resJson = await response.json()
-                
+                notifySuccessful()
+                setTimeout( ()=>{window.location.href = `http://localhost:3000/confirmedPurchase/${resJson.code}`}, 2000)
             } else {
+                notifyFetchError()
+                setTimeout( ()=>{window.location.href = 'http://localhost:3000/products'}, 2000)
+                throw new Error('Error en la solicitud');
+            }
+        } catch (error) {
+            console.log(error)
+        };
+    };
+
+    const getTicketByCode = async (code) =>{
+        try{
+            const token = localStorage.getItem('token');
+            const url = `http://localhost:8080/api/ticket/purchase/${code}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                return data
+            } else {
+                window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
             }
         } catch (error) {
@@ -51,7 +101,7 @@ const PurchaseProvider = ({children}) =>{
     };
 
     return(
-        <PurchaseContext.Provider value={{ generateTicket, finalizeTicket}}>
+        <PurchaseContext.Provider value={{ getTicketByCode, generateTicket, finalizeTicket}}>
         {children}
         </PurchaseContext.Provider>
     )

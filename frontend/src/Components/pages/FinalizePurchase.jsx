@@ -1,8 +1,6 @@
-import React, { useContext, useState, useRef, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import {CartContext} from '../../context/CartContext';
-import { ToastContainer, toast } from 'react-toastify';
-import emailjs from '@emailjs/browser';
+import { ToastContainer } from 'react-toastify';
 import Spinner from 'react-bootstrap/Spinner';
 import { PurchaseContext } from '../../context/PurchaseContext';
 
@@ -11,7 +9,7 @@ const FinalizePurchase = () => {
     const [loading, setLoading] = useState(true);
     const [ticket, setTicket ] = useState([])
     const { id } = useParams(); 
-    
+
     useEffect(() => {
         const getTicket = async() =>{
             const ticketGenerate = await generateTicket(id)
@@ -26,45 +24,10 @@ const FinalizePurchase = () => {
     const handlePostTicket = async (e) =>{
         e.preventDefault()
         ticket.purchaser.cellPhone = document.querySelector('#phone').value
-        const fetchTicket = await finalizeTicket(ticket)
+        const spinner = document.getElementById('spinner')
+        spinner.classList.add("container-fluid")
+        await finalizeTicket(ticket)
     }
-
-    // // toastify
-    // const notify1 = () => toast.error('Completar Datos!', {
-    //     position: "top-right",
-    //     autoClose: 700,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    // }
-    // );
-
-    // const notify2 = () => toast.error(`error al enviar la compra! Intenta de nuevo mas tarde`, {
-    //     position: "top-right",
-    //     autoClose: 1000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    // }
-    // );
-
-    // const notify3 = () => toast.success('Compra Realizada con exito!', {
-    //     position: "top-right",
-    //     autoClose: 1000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    // }
-    // )
 
     if (loading === true){
         return (
@@ -132,7 +95,7 @@ const FinalizePurchase = () => {
                             </table>
                             <div className="d-flex justify-content-center">
                                 <div className="p-2">
-                                    <Link className="btn btn-primary btn-block" aria-current="page" to={'/Productos'}>Seguir Comprando</Link>
+                                    <Link className="btn btn-primary btn-block" aria-current="page" to={'/products'}>Seguir Comprando</Link>
                                 </div>
                                 <div className="p-2">
                                     <button className="btn btn-success btn-block" id="button"> Finalizar Compra</button>
