@@ -13,7 +13,14 @@ const FinalizePurchase = () => {
     useEffect(() => {
         const getTicket = async() =>{
             const ticketGenerate = await generateTicket(id)
-            if( ticketGenerate ) {
+            if(ticketGenerate === 'ProductsAreOutOfStock'){
+                const spinner0 = document.getElementById('spinner0')
+                const prodQuantityError = document.getElementById('prodQuantityError')
+                spinner0.classList.add("container-fluid-hidden")
+                spinner0.classList.remove("container-fluid")
+                prodQuantityError.classList.remove("d-none")
+                setTimeout( ()=>window.location.href = 'http://localhost:3000/products' , 2500)
+            } else{
                 setTicket(ticketGenerate)
                 setLoading(false)
             }
@@ -24,22 +31,32 @@ const FinalizePurchase = () => {
     const handlePostTicket = async (e) =>{
         e.preventDefault()
         ticket.purchaser.cellPhone = document.querySelector('#phone').value
-        const spinner = document.getElementById('spinner')
-        spinner.classList.add("container-fluid")
+        const spinner1 = document.getElementById('spinner1')
+        spinner1.classList.add("container-fluid")
         await finalizeTicket(ticket)
     }
 
     if (loading === true){
         return (
-        <div className='container-fluid' id='spinner'>
-            <h1>Cargando...</h1>
-        <Spinner className='spinner' animation="border"/>
-        </div>
+            <>
+            <div className='container-fluid' id='spinner0'>
+                <h1>Cargando...</h1>
+                <Spinner className='spinner' animation="border"/>
+            </div>
+            <div id='prodQuantityError' class="container d-none mt-5">
+                <div class="card m-5 text-center shadow-lg border-danger">
+                    <div class="card-body text-danger">
+                        <h5 class="card-title">No Stock for Selected Products</h5>
+                        <p class="card-text">None of the selected products have stock available at the moment.</p>
+                    </div>
+                </div>
+            </div>
+            </>
         )
     } else {
         return(
                 <>
-                    <div className='container-fluid-hidden' id='spinner'>
+                    <div className='container-fluid-hidden' id='spinner1'>
                         <h1>Procesando Compra...</h1>
                         <Spinner className='spinner' animation="border"/>
                     </div>

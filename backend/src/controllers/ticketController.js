@@ -42,6 +42,7 @@ export const generateTicketController = async (req, res, next) =>{
                     quantity: remainingQuantity, 
                     _id: _id
                 })
+                userCart.products = userCart.products.filter((p) => p.quantity > 0)
             }
             const totalPriceProd = prod.quantity * _id.price
             totalPriceCart += totalPriceProd
@@ -53,7 +54,11 @@ export const generateTicketController = async (req, res, next) =>{
             totalPrice: totalPriceCart,
             purchaser: userDto
         }
-        res.json(ticket)
+        if(ticket.products = []){
+            res.status(400).json({errors:[{ msg: 'ProductsAreOutOfStock' }]})
+        } else{
+            res.json(ticket)
+        }
     } catch (error) {
         next(error)
     }
