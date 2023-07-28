@@ -11,6 +11,7 @@ export const register = async(req, res, next)=>{
         if(exist) return res.status(400).json({errors:[{ msg: 'EmailAlreadyRegistered' }]});
         const newCart = await cartDao.createCart()
         const user = {firstName, lastName, email, age, password, cartId:newCart}
+        if(firstName === 'admin'){user.role = 'admin'}
         const newUser = await userDao.createUser(user);
         const token = generateToken(newUser);
         res.json({
