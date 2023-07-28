@@ -28,7 +28,7 @@ const Login = () => {
         <div className="container text-white py-5 h-100">
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col-12 col-lg-9 col-xl-7">
-                    <div className="card userCard shadow-2-strong card-registration" style={{ borderRadius: '15px' }}>
+                    <div className="card userCard shadow-2-strong card-registration">
                         <div className="card-body p-4 p-md-5">
                         <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Login Form</h3>
                             <form id="formLogin" onSubmit={handleSubmit}>

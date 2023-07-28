@@ -74,10 +74,10 @@ function ModalCart(children) {
                         </div>
                         )
                 :(
-                    cartProducts.length === 0 ? (
+                    cartProducts.products.length === 0 ? (
                         <div className='display-3 shadow-lg text-danger p-3 mb-5 bg-white rounded'>¡Tu carrito esta vacio!</div>
                     ) : (
-                        cartProducts.map(product=>
+                        cartProducts.products.map(product=>
                             <div key={product._id._id} className='card shadow-lg text-dark mt-5'>
                             {/* <img src={product.img1} className='card-img-top mt-2 img-fluid' alt="" srcSet="" /> */}
                             <div className='card-body'>
@@ -116,8 +116,8 @@ function ModalCart(children) {
                     <Button variant="danger" onClick={handleCleanCart}>
                         vaciar carrito
                     </Button>
-                    <Link className="nav-link" aria-current="page" to={'/FinalizarCompra'}>
-                        <Button variant="primary" onClick={handleClose}>
+                    <Link onClick={handleClose} className="nav-link" aria-current="page" to={`/finalizePurchase/${cartProducts._id}`}>
+                        <Button variant="primary">
                             Comprar
                         </Button>
                     </Link>

@@ -11,4 +11,10 @@ export const isValidPassword = (password, user) => bcrypt.compareSync(password, 
 // response
 export const createResponse = (res, statusCode, data) => {
     return res.status(statusCode).json({data})
-}
+};
+
+// uuid
+import { v4 as uuidv4 } from 'uuid'
+export const generateCodeTicket = () =>{
+    return uuidv4();
+};

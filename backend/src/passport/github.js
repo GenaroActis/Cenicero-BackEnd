@@ -1,8 +1,8 @@
 import { Strategy as GithubStrategy } from 'passport-github2';
 import passport from 'passport';
-import UserDao from '../daos/mongodb/usersDao.js';
+import UserDao from '../persistence/daos/mongodb/usersDao.js';
 const userDao = new UserDao();
-import CartsDaoMongoDB from "../daos/mongodb/cartsDao.js";
+import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
 const cartDao = new CartsDaoMongoDB();
 import { generateToken } from '../jwt/auth.js';
 
@@ -41,11 +41,6 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
 
 passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 
-// export const frontResponseGithub = {
-//     failureRedirect: 'http://localhost:8080/api/user/register-github',
-//     successRedirect: 'http://localhost:3000/products',
-//     passReqToCallback: true,
-// };
 export const frontResponseGithub = (req, res, next) => {
     passport.authenticate('github', (err, user, info) => {
         res.header('Authorization', user)

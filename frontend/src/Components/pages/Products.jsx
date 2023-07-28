@@ -12,7 +12,6 @@ const Products = () => {
     const [cardsProducts, setCardsProducts] = useState([]);
     const [pagData, setPagData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [categoria, setCategoria] = useState('todos');
     const { page, limit, key, value, sortField, sortOrder } = useParams()
 
     useEffect(() => {
@@ -32,7 +31,7 @@ const Products = () => {
     if (loading === true){
         return (
         <div className='container-fluid' id='spinner'>
-            <h1>Cargando {categoria}...</h1>
+            <h1>Cargando...</h1>
         <Spinner className='spinner' animation="border"/>
         </div>
         )

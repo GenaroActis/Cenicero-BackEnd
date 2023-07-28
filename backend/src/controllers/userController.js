@@ -1,7 +1,7 @@
-import UserDao from '../daos/mongodb/usersDao.js'
-import CartsDaoMongoDB from "../daos/mongodb/cartsDao.js";
+import UsersDaoMongoDB from '../persistence/daos/mongodb/usersDao.js'
+import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
 const cartDao = new CartsDaoMongoDB();
-const userDao = new UserDao() 
+const userDao = new UsersDaoMongoDB(); 
 import { generateToken } from '../jwt/auth.js';
 
 export const register = async(req, res, next)=>{
@@ -56,3 +56,15 @@ export const logoutUserController = async (req, res, next) =>{
         next(error)
     };
 };
+
+export const ensureIsAdminController = async (req, res, next) =>{
+    try {
+        if(req.user.role === "admin"){
+            res.json({msg:'authorized user'})
+        } else{
+            res.json({msg:'unauthorized user'})
+        }
+    } catch (error) {
+        next(error)
+    }
+}

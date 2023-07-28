@@ -13,7 +13,11 @@ export default class CartsDaoMongoDB {
     async getCart(id) {
         try {
             const response = await CartsModel.findOne({ _id: id }).populate('products._id')
-            return response;
+            if (!response){
+                throw new Error('the cart does not exist')
+            }else{
+                return response;
+            }
         } catch (error) {
             console.log(error);
             throw new Error(error);
@@ -114,4 +118,19 @@ export default class CartsDaoMongoDB {
             throw new Error(error);
         };
     };
+    async updateCartProducts(cartId, newProductsList) {
+        try {
+            const cartFind = await CartsModel.findById(cartId);
+            if (!cartFind) {
+                throw new Error('the cart you are trying to update does not exist');
+            } else {
+                cartFind.products = newProductsList;
+                const updatedCart = await cartFind.save();
+                return updatedCart;
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
 };

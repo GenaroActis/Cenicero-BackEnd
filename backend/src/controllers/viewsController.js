@@ -1,5 +1,5 @@
-import CartsDaoMongoDB from "../daos/mongodb/cartsDao.js";
-import ProductsDaoMongoDB from "../daos/mongodb/productsDao.js";
+import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
+import ProductsDaoMongoDB from "../persistence/daos/mongodb/productsDao.js";
 const cartDao = new CartsDaoMongoDB();
 const prodDao = new ProductsDaoMongoDB();
 
@@ -48,22 +48,10 @@ export const renderProfile = async(req, res, next) =>{
         if(!userData){
             res.redirect('/')
         }else{
-            res.render('profile', {userData});
+            res.json(userData);
         };
     } catch (error) {
         next(error)
     };
 };
-const renderController = (templateName) => {
-    return async (req, res, next) => {
-        try {
-            res.render(templateName);
-        } catch (error) {
-            next(error);
-        }
-    };
-};
-export const renderRegisterController = renderController('register');
-export const renderLoginController = renderController('login');
-export const renderRegisterErrorController = renderController('registerError');
-export const renderLoginErrorController = renderController('loginError');
+

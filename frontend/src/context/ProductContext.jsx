@@ -50,65 +50,6 @@ const ProductProvider = ({children}) =>{
         };
     };
 
-    const createProduct = async (prodData) =>{
-        try {
-            const response = await fetch(`http://localhost:8080/api/products`, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(prodData),
-            });
-            if (response.ok) {
-                await response.json();
-            } else {
-                window.location.href = 'http://localhost:8080/'
-                throw new Error('Error en la solicitud');
-            }
-        } catch (error) {
-            console.log(error)
-        };
-    };
-
-    const deleteProduct = async (prodId) =>{
-        try {
-            const response = await fetch(`http://localhost:8080/api/products/${prodId}`, {
-                method: 'DELETE',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            });
-            if (response.ok) {
-                await response.json();
-            } else {
-                window.location.href = 'http://localhost:8080/'
-                throw new Error('Error en la solicitud');
-            }
-        } catch (error) {
-            console.log(error)
-        };
-    };
-
-    const updateProduct = async (prodId, prodUpdated) =>{
-        try {
-            const response = await fetch(`http://localhost:8080/api/products/${prodId}`, {
-                method: 'PUT',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(prodUpdated),
-            });
-            if (response.ok) {
-                await response.json();
-            } else {
-                window.location.href = 'http://localhost:8080/'
-                throw new Error('Error en la solicitud');
-            }
-        } catch (error) {
-            console.log(error)
-        };
-    };
-
     const serchProduct = async (key, value) =>{
         try {
             const response = await fetch(`http://localhost:8080/api/products/search/${key}/${value}`, {
@@ -129,7 +70,7 @@ const ProductProvider = ({children}) =>{
     };
 
     return(
-        <ProductContext.Provider value={{ getProducts, getProductById, deleteProduct, createProduct, updateProduct, serchProduct,}}>
+        <ProductContext.Provider value={{ getProducts, getProductById, serchProduct,}}>
         {children}
         </ProductContext.Provider>
     )

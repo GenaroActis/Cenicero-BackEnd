@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UserDao from '../daos/mongodb/usersDao.js';
+import UserDao from '../persistence/daos/mongodb/usersDao.js';
 import { PrivateKeyJWT } from '../config.js'
 const userDao = new UserDao();
 

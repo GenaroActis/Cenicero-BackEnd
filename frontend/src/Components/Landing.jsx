@@ -7,15 +7,21 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Nosotros from './pages/Nosotros'
 import ProductoDetalles from './pages/ProductoDetalles'
 import Inicio from './Inicio/Inicio'
-import FinalizarCompra from './pages/FinalizarCompra'
+import FinalizePurchase from './pages/FinalizePurchase'
 import CartProvider from '../context/CartContext'
 import UserProvider from '../context/UserContext'
 import ProductProvider from '../context/ProductContext'
+import AdminProvider from '../context/AdminContext'
+import PurchaseProvider from '../context/PurchaseContext'
 import Products from './pages/Products'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import GithubRes from './pages/GithubRes'
-
+import CreateProduct from './adminPages/CreateProduct'
+import AdminMenu from './adminPages/AdminMenu'
+import ProductManager from './adminPages/ProductManager'
+import SalesHistory from './adminPages/SalesHistory'
+import ProductModifier from './adminPages/ProductModifier'
 import '../scss/modal.css'
 import '../scss/detalleProductos.css'
 import  '../scss/reset.css'
@@ -35,20 +41,29 @@ const Landing = () => {
             <UserProvider>
             <CartProvider>
             <ProductProvider>
+            <AdminProvider>
+            <PurchaseProvider>
                 <BrowserRouter>
                     <Header/>
                         <Routes>
                             <Route exact path="/cenicero-backend" element={<Inicio/>}/>
                             <Route exact path="/nosotros" element={<Nosotros/>}/>
                             <Route exact path="/producto/:id" element={<ProductoDetalles/>}/>
-                            <Route exact path="/finalizarCompra" element={<FinalizarCompra/>}/>
+                            <Route exact path="/finalizePurchase/:id" element={<FinalizePurchase/>}/>
                             <Route exact path="/products/:page?/:limit?/:key?/:value?/:sortField?/:sortOrder?" element={<Products/>}/>
                             <Route exact path="/register" element={<Register/>}/>
                             <Route exact path="/" element={<Login/>}/>
                             <Route exact path="/github/:token" element={<GithubRes/>}/>
+                            <Route exact path="/admin" element={<AdminMenu/>}/>
+                            <Route exact path="/admin/createProduct" element={<CreateProduct/>}/>
+                            <Route exact path="/admin/productManager/:page?/:limit?/:key?/:value?/:sortField?/:sortOrder?" element={<ProductManager/>}/>
+                            <Route exact path="/admin/salesHistory" element={<SalesHistory/>}/>
+                            <Route exact path="/productModifier/:id" element={<ProductModifier/>}/>
                         </Routes>
                     <Footer/>
                 </BrowserRouter>
+            </PurchaseProvider>
+            </AdminProvider>
             </ProductProvider>
             </CartProvider>
             </UserProvider>

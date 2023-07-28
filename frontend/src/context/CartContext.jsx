@@ -55,8 +55,7 @@ const CartProvider = ({children}) =>{
             });
             if (response.ok) {
                 const data = await response.json()
-                const cart = data.products
-                return cart
+                return data
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
@@ -152,7 +151,7 @@ const CartProvider = ({children}) =>{
     const totalPriceFunction = async () =>{
         try {
             const cart = await getCart()
-            const totalPrice = cart.reduce((accumulator, product) => {
+            const totalPrice = cart.products.reduce((accumulator, product) => {
                 return accumulator + product.quantity * product._id.price;
             }, 0);
             return totalPrice;

@@ -1,5 +1,5 @@
 import {UserModel} from './models/usersModel.js'
-import { createHash, isValidPassword } from '../../utils.js';
+import { createHash, isValidPassword } from '../../../utils.js';
 
 export default class UsersDaoMongoDB {
     async getUserByEmail(email){

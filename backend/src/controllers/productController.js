@@ -1,5 +1,6 @@
-import ProductsDaoMongoDB from "../daos/mongodb/productsDao.js";
+import ProductsDaoMongoDB from "../persistence/daos/mongodb/productsDao.js";
 const prodDao = new ProductsDaoMongoDB();
+import { generateCodeTicket } from "../utils.js"
 
 export const getProductByIdController = async (req, res, next) =>{
     try {
@@ -22,10 +23,11 @@ export const createProductController = async (req, res, next) =>{
             description,
             price,
             stock,
-            code,
+            code: generateCodeTicket(),
             category,
             size
         })
+        console.log(addedProduct)
         if(!addedProduct){
             throw new Error('One of the fields is not correct')
         } else{
@@ -39,7 +41,7 @@ export const deleteProductController = async (req, res, next) =>{
     try {
         const { id } = req.params
         await prodDao.deleteProduct(id)
-        res.send(`product with id ${id} deleted!`)
+        res.json(`product with id ${id} deleted!`)
     } catch (error) {
         next(error)
     };
@@ -47,14 +49,14 @@ export const deleteProductController = async (req, res, next) =>{
 export const updateProductController = async (req, res, next) =>{
     try {
         const {id} = req.params;
-        const {title, description, price, stock, code} = req.body;
+        const {title, description, price, stock, code, category, size} = req.body;
         const existingValidator = await prodDao.getProductById(id);
         if (!existingValidator) {
             throw new Error('Product not found!');
         } else{
             const prodUpdated = await prodDao.updateProduct(
                 id,
-                { title, description, price, stock, code }
+                { title, description, price, stock, code, category, size }
             );
             res.json(prodUpdated);
         };

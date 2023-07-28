@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt';
-import UserDao from '../daos/mongodb/usersDao.js'
+import UserDao from '../persistence/daos/mongodb/usersDao.js'
 const userDao = new UserDao();
 import { PrivateKeyJWT } from '../config.js'
 
