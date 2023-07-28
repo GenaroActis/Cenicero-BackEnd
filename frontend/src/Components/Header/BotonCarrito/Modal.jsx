@@ -103,28 +103,33 @@ function ModalCart(children) {
                 )    
                 }
             </Modal.Body>
+            { loading === false ? (
                 <Modal.Footer>
-                    {(cartProducts.length === 0) ? 
-                        <Button variant="danger" onClick={handleClose}>
-                            Cerrar
-                        </Button>
-                    :
-                    <>
+                {(cartProducts.products.length === 0) ? 
                     <Button variant="danger" onClick={handleClose}>
                         Cerrar
                     </Button>
-                    <Button variant="danger" onClick={handleCleanCart}>
-                        vaciar carrito
+                :
+                <>
+                <Button variant="danger" onClick={handleClose}>
+                    Cerrar
+                </Button>
+                <Button variant="danger" onClick={handleCleanCart}>
+                    vaciar carrito
+                </Button>
+                <Link onClick={handleClose} className="nav-link" aria-current="page" to={`/finalizePurchase/${cartProducts._id}`}>
+                    <Button variant="primary">
+                        Comprar
                     </Button>
-                    <Link onClick={handleClose} className="nav-link" aria-current="page" to={`/finalizePurchase/${cartProducts._id}`}>
-                        <Button variant="primary">
-                            Comprar
-                        </Button>
-                    </Link>
-                    <h1 className='card-text shadow-lg p-3 bg-white rounded'>Total ${totalPrice}</h1>
-                    </>
-                    }
-                </Modal.Footer>
+                </Link>
+                <h1 className='card-text shadow-lg p-3 bg-white rounded'>Total ${totalPrice}</h1>
+                </>
+                }
+            </Modal.Footer>
+            ):(
+                <h4>Loading...</h4>
+            )}
+                
             </Modal>
             {/* <ContadorCarrito/> */}
         </>
