@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext  } from 'react';
+import React, { useState, useContext  } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 // import ContadorCarrito from './ContadorCarrito'
@@ -68,8 +68,8 @@ function ModalCart(children) {
                 </Modal.Header>
             <Modal.Body id='modalBody'>
                 { loading === true ? (
-                        <div className='container-fluid' id='spinner'>
-                            <h1>Cargando...</h1>
+                        <div className='container-lg' id='spinner'>
+                            <h1>Loading...</h1>
                         <Spinner className='spinner' animation="border"/>
                         </div>
                         )
