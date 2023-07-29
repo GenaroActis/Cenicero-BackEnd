@@ -1,14 +1,15 @@
 import { Strategy as GithubStrategy } from 'passport-github2';
 import passport from 'passport';
 import UserDao from '../persistence/daos/mongodb/usersDao.js';
-const userDao = new UserDao();
 import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
-const cartDao = new CartsDaoMongoDB();
 import { generateToken } from '../jwt/auth.js';
+import { ClientIDGithub, ClientSecretGithub } from '../config.js'
+const userDao = new UserDao();
+const cartDao = new CartsDaoMongoDB();
 
 const strategyOptions = {
-    clientID : 'Iv1.9bc6eb5e06e707c9',
-    clientSecret: '78c15426ddf12e38dfab579629c62d5ec69c0dc6',
+    clientID : ClientIDGithub,
+    clientSecret: ClientSecretGithub,
     callbackURL:'http://localhost:8080/api/user/github-profile',
     origin: 'http://localhost:3000',
 };

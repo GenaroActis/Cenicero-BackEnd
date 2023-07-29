@@ -1,2 +1,4 @@
 MongoDBUrl=""
 PrivateKeyJWT=""
+ClientIDGithub = ''
+ClientSecretGithub = ''

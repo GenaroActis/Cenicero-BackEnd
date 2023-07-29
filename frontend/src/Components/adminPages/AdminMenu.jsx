@@ -9,11 +9,12 @@ const AdminMenu = () => {
     const verifyAdmin = async() =>{
         const ensureFunct = await ensureIsAdmin()
         if(ensureFunct) setLoading(false)
-    }
-
+    };
+    
     useEffect(() => {
         verifyAdmin();
     }, []);
+
     if (loading === true){
         return (
         <div className='container-fluid' id='spinner'>
