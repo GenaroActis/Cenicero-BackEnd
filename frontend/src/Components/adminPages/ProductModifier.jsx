@@ -36,8 +36,6 @@ const ProductModifier = () => {
                 const price = document.querySelector("#price").value
                 const stock = document.querySelector("#stocks").value
                 const category = document.querySelector("#categorys").value
-                console.log(category)
-                // console.log(price)
                 const prodUpdated = {
                     title: title === '' ? product.title : title,
                     size: size === '' ? product.size : size,
@@ -46,8 +44,7 @@ const ProductModifier = () => {
                     stock: stock === '' ? product.stock : stock,
                     category: category === '' ? product.category : category,
                 }
-                console.log(prodUpdated)
-                const fetch = await updateProduct(id, prodUpdated)
+                await updateProduct(id, prodUpdated)
             } catch (error) {
                 console.error(error);
             }

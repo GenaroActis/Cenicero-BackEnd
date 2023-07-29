@@ -20,10 +20,6 @@ export const validateCreateProduct = [
         .not()
         .isEmpty()
         .isNumeric(),
-    check('code')
-        .exists()
-        .not()
-        .isEmpty(),
     check('category')
         .exists()
         .not()

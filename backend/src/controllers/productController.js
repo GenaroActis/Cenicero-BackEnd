@@ -27,7 +27,6 @@ export const createProductController = async (req, res, next) =>{
             category,
             size
         })
-        console.log(addedProduct)
         if(!addedProduct){
             throw new Error('One of the fields is not correct')
         } else{

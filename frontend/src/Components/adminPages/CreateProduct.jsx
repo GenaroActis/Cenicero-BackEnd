@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const CreateProduct = () => {
     const { newProduct } = useContext(AdminContext)
     const handleSubmitNewProduct = (event) =>{
-        event.preventDefault();
+        event.preventDefault()
         const prodData ={
             title: document.querySelector('#title').value,
             description: document.querySelector('#description').value,
@@ -15,6 +15,8 @@ const CreateProduct = () => {
             size: document.querySelector('#size').value
         }
         newProduct(prodData)
+        const form = document.querySelector('#form')
+        form.reset();
     }
     return (
         <>
@@ -24,7 +26,7 @@ const CreateProduct = () => {
         <div className="card userCard m-5 text-white">
             <div className="card-body text-center">
                 <h2 className="card-title m-3 display-2">New Product</h2>
-                <form onSubmit={handleSubmitNewProduct}>
+                <form id='form' onSubmit={handleSubmitNewProduct}>
                     <div className="form-group m-4">
                         <label htmlFor="title" className='display-4'>Title</label>
                         <input type="text" required className="form-control" id="title" />

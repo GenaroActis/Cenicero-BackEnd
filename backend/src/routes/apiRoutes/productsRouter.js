@@ -12,9 +12,9 @@ import { ensureIsAdmin } from '../../middlewares/ensureIsAdmin.js'
 import { validateCreateProduct } from '../../middlewares/validators/productValidator.js'
 
 router.get('/:id', checkAuth, getProductByIdController);
-router.post('/', ensureIsAdmin, validateCreateProduct, createProductController);
-router.put('/:id', ensureIsAdmin, updateProductController);
-router.delete('/:id', ensureIsAdmin, deleteProductController);
-router.get('/search/:key/:value', getProductBySomethingController);
+router.post('/', checkAuth, ensureIsAdmin, validateCreateProduct, createProductController);
+router.put('/:id', checkAuth, ensureIsAdmin, updateProductController);
+router.delete('/:id', checkAuth, ensureIsAdmin, deleteProductController);
+router.get('/search/:key/:value', checkAuth, getProductBySomethingController);
 
 export default router
