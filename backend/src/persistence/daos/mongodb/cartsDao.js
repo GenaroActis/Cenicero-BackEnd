@@ -6,7 +6,6 @@ export default class CartsDaoMongoDB {
         const response = await CartsModel.create({});
         return response;
         } catch (error) {
-        console.log(error);
         throw new Error(error);
         };
     };
@@ -14,19 +13,18 @@ export default class CartsDaoMongoDB {
         try {
             const response = await CartsModel.findOne({ _id: id }).populate('products._id')
             if (!response){
-                throw new Error('the cart does not exist')
+                return false
             }else{
                 return response;
             }
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         };
     };
     async addProductToCart(prodId, cartId){
         try {
             const cartFind = await CartsModel.findById(cartId)
-            if(!cartFind) throw new Error ("Cart not found")
+            if(!cartFind) return false
             const existingProduct = await cartFind.products.find(productIt => productIt._id.toString() === prodId);
             if(existingProduct){
                 const updatedQuantity = existingProduct.quantity + 1
@@ -43,7 +41,6 @@ export default class CartsDaoMongoDB {
             const cartUpdate = await CartsModel.findById(cartId);
             return cartUpdate
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         };
     };
@@ -52,7 +49,7 @@ export default class CartsDaoMongoDB {
             const cartFind = await CartsModel.findById(cartId);
             const existingProduct = await cartFind.products.find(productIt => productIt._id.toString() === prodId);
             if(!existingProduct){
-                throw new Error('the product you are trying to remove does not exist')
+                return false
             } else{
                 if(existingProduct.quantity > 1){
                     const updatedQuantity = existingProduct.quantity - 1
@@ -70,7 +67,6 @@ export default class CartsDaoMongoDB {
             const cartUpdate = await CartsModel.findById(cartId).populate('products._id')
             return cartUpdate
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         };
     };
@@ -78,7 +74,7 @@ export default class CartsDaoMongoDB {
         try {
             const cartFind = await CartsModel.findById(cartId);
             if(!cartFind){
-                throw new Error('the cart you are trying to update does not exist')
+                return false
             } else{
                 const emptyCart = await CartsModel.updateOne(
                     { _id: cartId },
@@ -87,7 +83,6 @@ export default class CartsDaoMongoDB {
                 return emptyCart
             };
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         };
     };
@@ -114,7 +109,6 @@ export default class CartsDaoMongoDB {
             const cartUpdate = await CartsModel.findById(cartId).populate('products._id')
             return cartUpdate
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         };
     };
@@ -129,7 +123,6 @@ export default class CartsDaoMongoDB {
                 return updatedCart;
             }
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         }
     }

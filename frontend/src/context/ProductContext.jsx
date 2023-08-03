@@ -8,7 +8,7 @@ const ProductProvider = ({children}) =>{
     const getProducts = async (page, limit, key, value, sortField, sortOrder) =>{
         try{
             const token = localStorage.getItem('token');
-            const url = `http://localhost:8080/products?${page ?? 'page=1'}&${limit ?? 'limit=5'}&${key}&${value}&${sortField ?? 'sortField=title'}&${sortOrder ?? 'sortOrder=asc'}`;
+            const url = `http://localhost:8080/api/products?${page ?? 'page=1'}&${limit ?? 'limit=5'}&${key}&${value}&${sortField ?? 'sortField=title'}&${sortOrder ?? 'sortOrder=asc'}`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -18,7 +18,7 @@ const ProductProvider = ({children}) =>{
             });
             if (response.ok) {
                 const data = await response.json();
-                return data
+                return data.data
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
@@ -39,8 +39,8 @@ const ProductProvider = ({children}) =>{
                 },
             });
             if (response.ok) {
-                const product = await response.json();
-                return product
+                const res = await response.json();
+                return res.data
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');

@@ -21,7 +21,7 @@ const ProductModifier = () => {
                 setProduct(data);
                 setLoading(false);
                 } catch (error) {
-                console.error('Error:', error);
+                console.log(error);
                 };
             };
             fetchData();

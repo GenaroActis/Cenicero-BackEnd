@@ -34,6 +34,7 @@ const ConfirmedPurchase = () => {
         return(
                 <>
                     <div className="form-group table-responsive">
+                        <h1 className='text-center pt-4'>Completed Purchase</h1>
                         <div className='card m-4 py-2 text-center shadow-lg rounded'>
                             <h1>Buyer</h1>
                             <h4>{ticket.purchaser.fullName}</h4>

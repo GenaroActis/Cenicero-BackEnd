@@ -46,7 +46,7 @@ const CartProvider = ({children}) =>{
     const getCart = async () =>{
         try { 
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/cart`, {
+            const response = await fetch(`http://localhost:8080/api/carts`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const CartProvider = ({children}) =>{
             });
             if (response.ok) {
                 const data = await response.json()
-                return data
+                return data.data
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
@@ -77,6 +77,7 @@ const CartProvider = ({children}) =>{
             });
             if (response.ok) {
                 await response.json();
+                notify1()
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');

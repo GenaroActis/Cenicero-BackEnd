@@ -72,7 +72,7 @@ const UserProvider = ({children}) =>{
                     if(error.errors[0].msg === 'VeryShort'){
                         notifyPasswordVeryShort()
                     }
-                    if(error.errors[0].msg === 'EmailAlreadyRegistered'){
+                    if(error.errors === 'EmailAlreadyRegistered'){
                         notifyRegisterError()
                     }
                 } else{
@@ -96,17 +96,14 @@ const UserProvider = ({children}) =>{
             });
             if (response.ok) {
                 const res = await response.json()
-                if(res.msg === 'isGithub'){
-                    notifyIsGithub()
-                } else{
-                    const token = res.accessToken
-                    localStorage.setItem('token', token);
-                    window.location.href = 'http://localhost:3000/products'
-                }
+                const token = res.accessToken
+                localStorage.setItem('token', token);
+                window.location.href = 'http://localhost:3000/products'
             } else {
-                notifyLoginError()
-                throw new Error('Error en la solicitud');
-            }
+                const error= await response.json()
+                if(error.errors === 'isGithub') notifyIsGithub()
+                else notifyLoginError();
+            };
         } catch (error) {
             console.log(error)
         };

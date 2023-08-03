@@ -35,7 +35,7 @@ const ProductManager = () => {
                 setPagData(data.info);
                 setLoading(false);
                 } catch (error) {
-                console.error('Error:', error);
+                console.log(error);
                 };
             };
             fetchData();

@@ -39,12 +39,11 @@ const AdminProvider = ({children}) =>{
                 },
             });
             if (response.ok) {
-                const resJson = await response.json()
-                if(resJson.msg === 'authorized user') return resJson
-                if(resJson.msg === 'unauthorized user') window.location.href = 'http://localhost:3000/'
+                const res = await response.json()
+                if(res.data === 'Authorized user') return res.data
             } else {
                 window.location.href = 'http://localhost:3000/'
-                throw new Error('Error en la solicitud');
+                throw new Error('Unauthorized user');
             }
         } catch (error) {
             console.log(error)
@@ -63,12 +62,12 @@ const AdminProvider = ({children}) =>{
                 body: JSON.stringify(prodData),
             });
             if (response.ok) {
-                const resJson = await response.json()
-                if (resJson.msg === 'the user does not have permission'){
+                const res = await response.json()
+                if (res.data === 'the user does not have permission'){
                     window.location.href = 'http://localhost:3000/'
                 } else{
                     notifyAddProdSuccessful()
-                    return resJson
+                    return res.data
                 }
             } else {
                 throw new Error('Error en la solicitud');
@@ -112,9 +111,9 @@ const AdminProvider = ({children}) =>{
                 body: JSON.stringify(prodUpdated),
             });
             if (response.ok) {
-                const resJson = await response.json();
+                const res = await response.json();
                 window.location.reload();
-                return resJson
+                return res.data
             } else {
                 throw new Error('Error en la solicitud');
             }

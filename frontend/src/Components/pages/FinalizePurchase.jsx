@@ -43,11 +43,11 @@ const FinalizePurchase = () => {
                 <h1>Cargando...</h1>
                 <Spinner className='spinner' animation="border"/>
             </div>
-            <div id='prodQuantityError' class="container d-none mt-5">
-                <div class="card m-5 text-center shadow-lg border-danger">
-                    <div class="card-body text-danger">
-                        <h5 class="card-title">No Stock for Selected Products</h5>
-                        <p class="card-text">None of the selected products have stock available at the moment.</p>
+            <div id='prodQuantityError' className="container d-none mt-5">
+                <div className="card m-5 text-center shadow-lg border-danger">
+                    <div className="card-body text-danger">
+                        <h5 className="card-title">No Stock for Selected Products</h5>
+                        <p className="card-text">None of the selected products have stock available at the moment.</p>
                     </div>
                 </div>
             </div>

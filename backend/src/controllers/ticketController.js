@@ -1,30 +1,34 @@
 import TicketDaoMongoDB from "../persistence/daos/mongodb/ticketDao.js";
 import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
 import ProductsDaoMongoDB from "../persistence/daos/mongodb/productsDao.js";
-import { generateCodeTicket } from "../utils.js"
+import { generateCodeTicket } from "../utils/utils.js"
 import buyerUserDto from "../persistence/dtos/buyerUserDto.js"
+import { HttpResponse } from "../utils/httpResponse.js";
 const ticketDao = new TicketDaoMongoDB();
 const cartDao = new CartsDaoMongoDB();
 const prodDao = new ProductsDaoMongoDB();
+const httpResponse = new HttpResponse();
 
 export const getTicketByCodeController = async (req, res, next) =>{
     try {
         const { code } = req.params;
         const ticket = await ticketDao.getTicketByCode(code)
-        res.json(ticket)
+        if(!ticket) return httpResponse.NotFound(res, ticket)
+            else return httpResponse.Ok(res, ticket)
     } catch (error) {
         next(error);
-    }
-}   
+    };
+};   
 export const getTicketByIdController = async (req, res, next) =>{
     try {
         const { id } = req.params;
         const ticket = await ticketDao.getTicketById(id)
-        res.json(ticket)
+        if(!ticket) return httpResponse.NotFound(res, ticket)
+            else return httpResponse.Ok(res, ticket)
     } catch (error) {
         next(error);
-    }
-}
+    };
+};
 export const generateTicketController = async (req, res, next) =>{
     try {
         const user = req.user;
@@ -55,14 +59,14 @@ export const generateTicketController = async (req, res, next) =>{
             purchaser: userDto
         }
         if(ticket.products.length === 0){
-            res.status(400).json({errors:[{ msg: 'ProductsAreOutOfStock' }]})
+            return httpResponse.Conflict(res, 'Products are out of stock') 
         } else{
-            res.json(ticket)
+            return httpResponse.Ok(res, ticket)
         }
     } catch (error) {
         next(error)
-    }
-} 
+    };
+};
 export const finalizePurchaseController = async (req, res, next)=>{
     try {
         const cartId = req.user.cartId ;
@@ -70,13 +74,16 @@ export const finalizePurchaseController = async (req, res, next)=>{
         const remainingProducts = confirmedTicket.remainingProducts
         cartDao.updateCartProducts(cartId, remainingProducts)
         const savePurchase = await ticketDao.createTicket(confirmedTicket)
-        confirmedTicket.products.forEach(async (prod) => {
-            const { quantity, _id } = prod;
-            const remainingStock = _id.stock - quantity
-            await prodDao.updateProductStock(_id, remainingStock);
-        })
-        res.json(savePurchase)
+        if(!savePurchase) return httpResponse.ServerError(res, savePurchase)
+        else{
+            confirmedTicket.products.forEach(async (prod) => {
+                const { quantity, _id } = prod;
+                const remainingStock = _id.stock - quantity
+                await prodDao.updateProductStock(_id, remainingStock);
+            })
+            return httpResponse.Ok(res, savePurchase)
+        };
     } catch (error) {
         next(error)
-    }
-}
+    };
+};

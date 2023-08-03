@@ -39,9 +39,9 @@ const  Producto = () => {
         )
     }
     return (
-        <div key={id} id='detalleProducto'>
+        <div key={product._id} id='detalleProducto'>
             <>
-                <React.Fragment key={product.id}>
+                <React.Fragment key={product._id}>
                     {/* <div id='carousel'>
                         <Carousel variant="dark rounded">
                             <Carousel.Item>

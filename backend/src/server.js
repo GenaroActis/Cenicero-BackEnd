@@ -1,14 +1,11 @@
 import express from 'express';
 import morgan from 'morgan';
-import dirname from './utils.js';
 import bodyParser from 'body-parser';
 import './db/db.js';
-import handlebars from 'express-handlebars';
 import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import apiRouter from './routes/apiRouter.js'
 import session from 'express-session';
-import viewsRouter from './routes/viewsRouter.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import passport from 'passport';
 import { MongoDBUrl } from './config.js';
@@ -18,9 +15,6 @@ import cors from 'cors';
 
 const app = express();
 const port = 8080;
-const path = dirname
-
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -51,8 +45,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api', apiRouter);
-app.use('/', viewsRouter);
-
 app.use(errorHandler)
 
 const httpServer = app.listen(port, ()=>{

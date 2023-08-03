@@ -41,11 +41,11 @@ const PurchaseProvider = ({children}) =>{
                 },
             });
             if (response.ok) {
-                const data = await response.json();
-                return data
+                const res = await response.json();
+                return res.data
             } else {
                 const error = await response.json();
-                if(error.errors[0].msg === 'ProductsAreOutOfStock'){
+                if(error.errors === 'Products are out of stock'){
                     return 'ProductsAreOutOfStock'
                 } else{
                     throw new Error('Error en la solicitud');
@@ -68,9 +68,10 @@ const PurchaseProvider = ({children}) =>{
                 body: JSON.stringify(ticketData),
             });
             if (response.ok) {
-                const resJson = await response.json()
+                const res = await response.json()
+                console.log(res)
                 notifySuccessful()
-                setTimeout( ()=>{window.location.href = `http://localhost:3000/confirmedPurchase/${resJson.code}`}, 2000)
+                setTimeout( ()=>{window.location.href = `http://localhost:3000/confirmedPurchase/${res.data.code}`}, 2000)
             } else {
                 notifyFetchError()
                 setTimeout( ()=>{window.location.href = 'http://localhost:3000/products'}, 2000)
@@ -93,8 +94,8 @@ const PurchaseProvider = ({children}) =>{
                 },
             });
             if (response.ok) {
-                const data = await response.json();
-                return data
+                const res = await response.json();
+                return res.data
             } else {
                 window.location.href = 'http://localhost:3000/'
                 throw new Error('Error en la solicitud');
