@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { MongoDBUrl } from '../config.js';
-console.log(MongoDBUrl)
 class ConnectMongoDB{
     static #instance
     constructor(){
