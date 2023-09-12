@@ -15,7 +15,7 @@ export const register = async(req, res, next)=>{
         else{
             const newCart = await cartDao.createCart();
             const user = {firstName, lastName, email, age, password, cartId:newCart, role};
-            if(firstName === 'admind'){user.role = 'admin'};
+            if(firstName === 'admin'){user.role = 'admin'};
             const newUser = await userDao.createUser(user);
             return httpResponse.Ok(res, newUser);
         };
