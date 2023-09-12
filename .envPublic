@@ -1,0 +1,7 @@
+NodeEnv = 'development or production'
+MongoDBUrl= ''
+PrivateKeyJWT= ''
+ClientIDGithub = ''
+ClientSecretGithub = ''
+ShippingEmail = ''
+ShippingPass = ''

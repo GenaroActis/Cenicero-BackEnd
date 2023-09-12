@@ -1,0 +1,90 @@
+components:
+  parameters:
+    schemas:
+      BodyNewUser:
+        type: object
+        required: 
+          - firstName
+          - lastName
+          - email
+          - age
+          - password
+        properties:
+          firstName:
+            type: string
+            description: User first name.
+          lastName:
+            type: string
+            description: User last name.
+          email:
+            type: string
+            description: User email.
+          age:
+            type: number
+            description: User age.
+          password:
+            type: string
+            description: Password of the user to be hashed, must have 6 or more characters.
+        example:
+          firstName: Juan
+          lastName: Ramirez
+          email: juanramirez@gmail.com
+          age: 20
+          password: 123456
+      BodyLogin:
+        type: object
+        required: 
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            description: User email.
+          password:
+            type: string
+            description: Password of the user.
+        example:
+          email: juanramirez@gmail.com
+          password: jr123456
+      BodyNewProductPost:
+        type: object
+        required:
+          - title
+          - description
+          - price
+          - stock
+          - category
+          - size
+        properties:
+          title:
+            type: string
+            description: Product name.
+          description:
+            type: string
+            description: Description of the product, for example measures.
+          price:
+            type: number
+            description: Product price per unit.
+          stock: 
+            type: number
+            description: Stock of product units.
+          category:
+            type: string
+            description: Product category.
+          size:
+            type: string
+            description: Product size.
+        example:
+          title: Chomba Polo Ralph Lauren
+          description: Largo de 70cm, ancho de 65cm
+          price: 9000
+          stock: 10
+          category: chombas
+          size: L
+  securitySchemes:
+    BearerAuth:
+      type: http
+      # in: header
+      # name: Authorization
+      scheme: bearer
+      bearerFormat: JWT
