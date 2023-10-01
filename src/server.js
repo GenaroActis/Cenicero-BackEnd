@@ -16,17 +16,19 @@ import helmet from 'helmet'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { doc } from './docs/doc.js';
-import deleteInactiveUsers from './utils/deleteInactiveUsers.js'
-// deleteInactiveUsers()
+import './utils/deleteInactiveUsers.js'
+
 const app = express();
 const port = 8080;
 
 const specs = swaggerJSDoc(doc);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
-app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/src/public', express.static('src/public'))
+app.use(express.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 app.use(cookieParser())
 app.use(session({
@@ -43,7 +45,12 @@ app.use(session({
 })
 );
 app.use(helmet())
-app.use(cors());
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -47,7 +47,9 @@ export const getProductByIdController = async (req, res, next) =>{
 export const createProductController = async (req, res, next) =>{
     try {
         const ownerEmail = req.user.email
-        const { title, description, price, stock, category, size } = req.body
+        const product = JSON.parse(req.body.prodData)
+        const uploadedFile = req.file;
+        const { title, description, price, stock, category, size } = product
         const addedProduct = await prodDao.createProduct({
             title,
             description,
@@ -56,7 +58,8 @@ export const createProductController = async (req, res, next) =>{
             code: generateCodeTicket(),
             category,
             size,
-            owner: ownerEmail
+            owner: ownerEmail,
+            img: uploadedFile.path
         })
         if(!addedProduct) {
             logger.warning('Incorrect data entered for new product')

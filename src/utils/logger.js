@@ -24,7 +24,6 @@ if(NodeEnv === 'production'){
                 tryReconnect: true,
                 level: "error"
             }),
-            new winston.transports.Console({ level: "debug" }),
             new winston.transports.File({
                 filename: "./logs/logs.log",
                 level: "info", 

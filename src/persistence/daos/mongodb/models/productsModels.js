@@ -9,7 +9,8 @@ const ProductsSchema = new mongoose.Schema({
     code: { type:String, required: true, unique: true},
     category: { type:String, required: true, index: true},
     size: { type:String, required:true, index: true},
-    owner:{ type: String, default:'admin'}
+    owner:{ type: String, default:'admin'},
+    img: { type: String }
 });
 
 ProductsSchema.plugin(mongoosePaginate);
