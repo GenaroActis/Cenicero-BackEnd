@@ -7,7 +7,7 @@ export const doc = {
             description: 'Ecommerce realizado con: Node, Express, MongoDB y React JS'
         },
         servers: [
-            { url: 'https://cenicero-backend-khts-dev.fl0.io/' }
+            { url: 'https://cenicero.up.railway.app/' }
         ]
     },
     apis: ['./src/docs/*.yml']
