@@ -44,7 +44,7 @@ app.use(session({
     })
 })
 );
-app.use(helmet())
+// app.use(helmet())
 
 app.use(cors({
     origin: 'http://localhost:3000',
