@@ -52,7 +52,7 @@ app.use(passport.session());
 app.use('/api', apiRouter);
 app.use(errorHandler)
 
-const httpServer = app.listen(PORT,'0.0.0.0', ()=>{
+const httpServer = app.listen( '0.0.0.0', ()=>{
     console.log('server ok en port', PORT);
 });
 
