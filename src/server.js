@@ -51,14 +51,14 @@ app.use(session({
 //     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 //     allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
-app.use(cors())
+app.use(cors(`Access-Control-Allow-Origin: *`))
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api', apiRouter);
 app.use(errorHandler)
 
-const httpServer = app.listen(port, ()=>{
+const httpServer = app.listen(port,'0.0.0.0', ()=>{
     console.log('server ok en port', port);
 });
 
