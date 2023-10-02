@@ -16,7 +16,7 @@ import helmet from 'helmet'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { doc } from './docs/doc.js';
-import './utils/deleteInactiveUsers.js'
+// import './utils/deleteInactiveUsers.js'
 
 const app = express();
 const port = 8080;
