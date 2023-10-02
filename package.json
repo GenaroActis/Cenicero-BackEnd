@@ -5,7 +5,7 @@
   "main": "./src/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./src/server.js",
+    "start": "node ./src/server.js",
     "test:win": "set NODE_OPTIONS=--experimental-vm-modules && npx jest src/test/test.js"
   },
   "keywords": [],
