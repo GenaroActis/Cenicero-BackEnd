@@ -16,7 +16,7 @@ import helmet from 'helmet'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { doc } from './docs/doc.js';
-// import './utils/deleteInactiveUsers.js'
+import './utils/deleteInactiveUsers.js'
 import { PORT } from './config.js'
 
 const app = express();
@@ -45,6 +45,7 @@ app.use(session({
 })
 );
 
+app.use(helmet())
 app.use(cors(`Access-Control-Allow-Origin: *`))
 app.use(passport.initialize());
 app.use(passport.session());
