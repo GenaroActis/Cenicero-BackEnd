@@ -17,9 +17,9 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { doc } from './docs/doc.js';
 // import './utils/deleteInactiveUsers.js'
+import { PORT } from './config.js'
 
 const app = express();
-const port = 8080;
 
 const specs = swaggerJSDoc(doc);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
@@ -52,8 +52,8 @@ app.use(passport.session());
 app.use('/api', apiRouter);
 app.use(errorHandler)
 
-const httpServer = app.listen(port,'0.0.0.0', ()=>{
-    console.log('server ok en port', port);
+const httpServer = app.listen(PORT,'0.0.0.0', ()=>{
+    console.log('server ok en port', PORT);
 });
 
 export default app;

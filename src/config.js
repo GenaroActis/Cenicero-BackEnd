@@ -8,3 +8,4 @@ export const ClientSecretGithub = process.env.ClientSecretGithub
 export const ShippingEmail = process.env.ShippingEmail 
 export const ShippingPass = process.env.ShippingPass
 export const EmailHost = process.env.EmailHost
+export const PORT = process.env.PORT
