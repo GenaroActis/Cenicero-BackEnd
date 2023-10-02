@@ -20,16 +20,16 @@ export const generateCodeTicket = () =>{
 };
 
 // faker.js
-import { faker } from '@faker-js/faker'
-faker.local = "es";
-export const generateProducts = () =>{
-    return {
-        title: faker.commerce.product(),
-        description: faker.commerce.productDescription(),
-        price: faker.number.int({ max: 10000, min:4000}),
-        stock: faker.number.int({ max:15, min:2 }),
-        code: faker.string.uuid(),
-        category: faker.commerce.productAdjective(),
-        size: faker.number.int({ max:44, min:0 }).toString()
-    }
-}
+// import { faker } from '@faker-js/faker'
+// faker.local = "es";
+// export const generateProducts = () =>{
+//     return {
+//         title: faker.commerce.product(),
+//         description: faker.commerce.productDescription(),
+//         price: faker.number.int({ max: 10000, min:4000}),
+//         stock: faker.number.int({ max:15, min:2 }),
+//         code: faker.string.uuid(),
+//         category: faker.commerce.productAdjective(),
+//         size: faker.number.int({ max:44, min:0 }).toString()
+//     }
+// }
