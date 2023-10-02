@@ -30,7 +30,7 @@ components:
           lastName: Ramirez
           email: juanramirez@gmail.com
           age: 20
-          password: 123456
+          password: '123456'
       BodyLogin:
         type: object
         required: 
