@@ -10,12 +10,14 @@ const deleteInactiveUsers = async () => {
         const period = millisecondsInADay * 7
         const limit = new Date(Date.now() - period)
         const deletedUsers = await UserModel.find({ lastActivity: { $lt: limit } })
+        console.log('delet', deletedUsers)
         const res = await UserModel.deleteMany({lastActivity: {$lt: limit}})
         deletedUsers.map((user) =>{
             sendEmailDeletedAccountController(user.email)
         })
         return res
     } catch (error) {
+        console.log(error)
         logger.error(error)
         throw new Error(error)
     }
