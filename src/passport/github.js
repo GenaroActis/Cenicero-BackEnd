@@ -3,7 +3,7 @@ import passport from 'passport';
 import UserDao from '../persistence/daos/mongodb/usersDao.js';
 import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
 import { generateToken } from '../jwt/auth.js';
-import { ClientIDGithub, ClientSecretGithub } from '../config.js';
+import { ClientIDGithub, ClientSecretGithub, CallbackGithub, OriginGithub } from '../config.js';
 import logger from '../utils/logger.js';
 const userDao = new UserDao();
 const cartDao = new CartsDaoMongoDB();
@@ -11,8 +11,8 @@ const cartDao = new CartsDaoMongoDB();
 const strategyOptions = {
     clientID : ClientIDGithub,
     clientSecret: ClientSecretGithub,
-    callbackURL:'http://localhost:8080/api/user/github-profile',
-    origin: 'http://localhost:3000',
+    callbackURL: CallbackGithub,
+    origin: OriginGithub,
 };
 
 const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
@@ -47,6 +47,6 @@ passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 export const frontResponseGithub = (req, res, next) => {
     passport.authenticate('github', (err, user, info) => {
         res.header('Authorization', user)
-        .redirect(`http://localhost:3000/github/${user}`)
+        .redirect(`${OriginGithub}/github/${user}`)
     })(req, res, next);
 };
