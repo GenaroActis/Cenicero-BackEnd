@@ -47,6 +47,6 @@ passport.use('github', new GithubStrategy(strategyOptions, registerOrLogin));
 export const frontResponseGithub = (req, res, next) => {
     passport.authenticate('github', (err, user, info) => {
         res.header('Authorization', user)
-        .redirect(`${OriginGithub}/github/${user}`)
+        .redirect(`${FrontUrl}/github/${user}`)
     })(req, res, next);
 };
