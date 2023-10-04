@@ -60,7 +60,7 @@ export const createProductController = async (req, res, next) =>{
             category,
             size,
             owner: ownerEmail,
-            img: req.protocol + '://'+ req.hostname  + '/' + uploadedFile.path
+            img:'/' +  uploadedFile.path
         })
         if(!addedProduct) {
             logger.warning('Incorrect data entered for new product')
