@@ -8,7 +8,7 @@ import { generateTokenToRecoverPass } from '../jwt/auth.js'
 const httpResponse = new HttpResponse();
 const ticketDao = new TicketDaoMongoDB();
 const userDao = new UsersDaoMongoDB();
-
+import { FrontUrl } from '../config.js';
 export const sendConfirmationEmailController = async (req, res, next) =>{
     try {
         const { ticketCode } = req.params
@@ -71,7 +71,7 @@ export const sendRecoverPasswordEmailController = async (req, res, next) =>{
             html: `
             <div class='card'>
                 <h1>Si no has solicitado el cambio de contraseña ignora este email</h1>
-                <a href="http://localhost:3000/recover">Recuperar Contraseña</a>
+                <a href=${FrontUrl}/recover>Recuperar Contraseña</a>
             </div>
             `
         };
@@ -108,7 +108,7 @@ export const sendEmailDeletedAccountController = async (userEmail) =>{
             html: `
             <div class='card'>
                 <h1>Si quieres volver a registrarte reingresa</h1>
-                <a href="http://localhost:3000/">Registrarse</a>
+                <a href="${FrontUrl}/">Registrarse</a>
             </div>
             `
         };
