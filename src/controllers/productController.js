@@ -5,6 +5,7 @@ import logger from "../utils/logger.js";
 const prodDao = new ProductsDaoMongoDB();
 const httpResponse = new HttpResponse();
 import { FrontUrl } from "../config.js";
+import { sendEmailDeletedProduct } from './emailController.js'
 
 export const getAllProductsController = async (req, res, next) =>{
     try {
@@ -78,6 +79,8 @@ export const deleteProductController = async (req, res, next) =>{
         const existingValidator = await prodDao.getProductById(id);
         if(req.user.role !== 'admin') {
             if(req.user.email !== existingValidator.owner) return httpResponse.Unauthorized(res, 'notAuthorizedToDelete')
+        } else{
+            sendEmailDeletedProduct(existingValidator)
         }
         const prodDeleted = await prodDao.deleteProduct(id)
         return httpResponse.Ok(res, prodDeleted);

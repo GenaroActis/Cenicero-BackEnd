@@ -120,3 +120,35 @@ export const sendEmailDeletedAccountController = async (userEmail) =>{
         logger.error(error)
     };
 };
+
+export const sendEmailDeletedProduct = async (product) =>{
+    try {
+        const transporter = createTransport({
+            service: 'gmail',
+            port: 465,
+            scure: true,
+            auth: {
+                user: ShippingEmail,
+                pass: ShippingPass
+            }
+        }); 
+        // // //
+        const gmailOptions = {
+            from: ShippingEmail,
+            to: product.owner,
+            subject: 'Uno de tus productos fue eliminado!!',
+            html: `
+            <div class='card'>
+                <h1>el producto ${product.title}</h1>
+                <a href="${FrontUrl}/">Cenicero.com.ar</a>
+            </div>
+            `
+        };
+        const response = await transporter.sendMail(gmailOptions)
+        if(!response) {
+            logger.error('error sent deleted account email')
+        } else return 'sent'
+    } catch (error) {
+        logger.error(error)
+    };
+};
