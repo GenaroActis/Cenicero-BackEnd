@@ -3,7 +3,7 @@ import passport from 'passport';
 import UserDao from '../persistence/daos/mongodb/usersDao.js';
 import CartsDaoMongoDB from "../persistence/daos/mongodb/cartsDao.js";
 import { generateToken } from '../jwt/auth.js';
-import { ClientIDGithub, ClientSecretGithub, CallbackGithub, OriginGithub } from '../config.js';
+import { ClientIDGithub, ClientSecretGithub, CallbackGithub, FrontUrl } from '../config.js';
 import logger from '../utils/logger.js';
 const userDao = new UserDao();
 const cartDao = new CartsDaoMongoDB();
@@ -12,7 +12,7 @@ const strategyOptions = {
     clientID : ClientIDGithub,
     clientSecret: ClientSecretGithub,
     callbackURL: CallbackGithub,
-    origin: OriginGithub,
+    origin: FrontUrl,
 };
 
 const registerOrLogin = async(accessToken, refreshToken, profile, done) => {

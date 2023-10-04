@@ -4,13 +4,14 @@ import { HttpResponse } from "../utils/httpResponse.js";
 import logger from "../utils/logger.js";
 const prodDao = new ProductsDaoMongoDB();
 const httpResponse = new HttpResponse();
+import { FrontUrl } from "../config.js";
 
 export const getAllProductsController = async (req, res, next) =>{
     try {
         const { page, limit, key, value, sortField, sortOrder } = req.query;
         const allProducts = await prodDao.getAllProducts(page, limit, key, value, sortField, sortOrder);
-        const nextLink = allProducts.hasNextPage ? `http://localhost:3000/products/page=${allProducts.nextPage}` : null
-        const prevLink = allProducts.hasPrevPage ? `http://localhost:3000/products/page=${allProducts.prevPage}` : null
+        const nextLink = allProducts.hasNextPage ? `${FrontUrl}/products/page=${allProducts.nextPage}` : null
+        const prevLink = allProducts.hasPrevPage ? `${FrontUrl}/products/page=${allProducts.prevPage}` : null
         const productsFile = {
             results: allProducts.docs,
             info: {
@@ -59,7 +60,7 @@ export const createProductController = async (req, res, next) =>{
             category,
             size,
             owner: ownerEmail,
-            img: uploadedFile.path
+            img: FrontUrl + uploadedFile.path
         })
         if(!addedProduct) {
             logger.warning('Incorrect data entered for new product')

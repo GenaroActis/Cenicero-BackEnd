@@ -10,4 +10,4 @@ export const ShippingEmail = process.env.ShippingEmail
 export const ShippingPass = process.env.ShippingPass
 export const EmailHost = process.env.EmailHost
 export const CallbackGithub = process.env.CallbackGithub
-export const OriginGithub = process.env.OriginGithub
+export const FrontUrl = process.env.FrontUrl
