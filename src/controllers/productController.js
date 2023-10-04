@@ -79,8 +79,10 @@ export const deleteProductController = async (req, res, next) =>{
         const existingValidator = await prodDao.getProductById(id);
         if(req.user.role !== 'admin') {
             if(req.user.email !== existingValidator.owner) return httpResponse.Unauthorized(res, 'notAuthorizedToDelete')
-        } 
-        sendEmailDeletedProduct(existingValidator)
+        }
+        if(req.user.email !== existingValidator.owner){
+            sendEmailDeletedProduct(existingValidator)
+        }   
         const prodDeleted = await prodDao.deleteProduct(id)
         return httpResponse.Ok(res, prodDeleted);
     } catch (error) {
