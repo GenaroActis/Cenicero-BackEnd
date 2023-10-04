@@ -45,7 +45,7 @@ components:
             description: Password of the user.
         example:
           email: juanramirez@gmail.com
-          password: jr123456
+          password: '123456'
       BodyNewProductPost:
         type: object
         required:
