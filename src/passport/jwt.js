@@ -35,4 +35,4 @@ passport.serializeUser(async (user, done)=>{
 passport.deserializeUser(async(id, done)=>{
     const user = await userDao.getUserById(id);
     return done(null, user);
-})
+});

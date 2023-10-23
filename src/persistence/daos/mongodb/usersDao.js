@@ -2,7 +2,7 @@ import {UserModel} from './models/usersModel.js'
 import { createHash, isValidPassword } from '../../../utils/utils.js';
 import logger from '../../../utils/logger.js'
 import nonSensitiveUserData from '../../dtos/nonSensitiveUserData.js'
-export default class UsersDaoMongoDB {
+export default class Users {
     async getUserByEmail(email){
         try {
             const response = await UserModel.findOne({email});
